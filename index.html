@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="shortcut icon" href="../../assets/ico/favicon.ico">-->
+
+    <title>鍛鍊時計</title>
+
+    <!-- Bootstrap core CSS -->    
+    <!-- <link href="./css/bootstrap.min.css" rel="stylesheet"> -->
+	<link href="./css/bootstrap-theme.css" rel="stylesheet">	
+	<link href="./css/coachTimer.css" rel="stylesheet"> 
+	<link href="./css/jquery.share.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="./css/pietimer.css">
+	
+	
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/jquery.easing.1.3.js"></script>
+	<!--<script type="text/javascript" src="./js/jquery.share.js"></script>
+	<script type="text/javascript" src="./js/bootstrap.js"></script> -->
+	<script type="text/javascript" src="./js/jquery.pietimer.js"></script>
+  
+	<script>
+  
+     $(document).ready(function() {
+			$('#counterBlock').hide();
+			$('#subcribe').hide();
+			
+      });	 
+		var sideTimer;
+		var sidePattern="";
+		var sercondPerMinute=1;
+		var Actions={};
+			Actions["M"] = {name:"馬步",imgUrl:""};
+			Actions["A"] = {name:"弓步",imgUrl:""};
+			Actions["T"] = {name:"伏虎式",imgUrl:""};
+			Actions["L"] = {name:"獨立式",imgUrl:""};
+			Actions["S"] = {name:"坐盤式",imgUrl:""};
+			Actions["Sh"] = {name:"虛步",imgUrl:""};
+			
+		function hideTitle()
+		{
+			
+		}	
+			
+		function Coachtimer(patternString)
+		{
+			
+			$('#title').fadeOut('slow');
+			$('#buttonSet').fadeOut('slow');			
+			$('hr').fadeOut('slow',function()
+			{
+				$('#counterBlock').fadeIn('slow',function(){
+					$('#mainMove').css("background-image", "url(./img/img_start.png)");
+					$('#timer').pietimer({
+							timerSeconds: 5,
+							color: '#939296',
+							fill: false,
+							showPercentage: false,
+							callback: function() {
+								//alert("yahoo, timer is done!");
+								$('#timer').pietimer('reset');
+								//doAction(patternString);
+							}
+						});
+					$('#timer').fadeIn('slow');
+					doAction(patternString);		
+					
+				});					
+			});
+			
+							
+		}
+		
+		function doAction(patternString)
+		{	
+			if(patternString!="")
+			{
+				clearInterval(sideTimer);
+				var location = patternString.search(",");	
+				if (location == -1)
+					location=patternString.length;
+					
+				var Step = patternString.slice(0,location);
+				patternString = patternString.slice(location+1);
+				
+					var name = Step.split("-")[0];
+					var time = Step.split("-")[1];
+					sidePattern = Step.split("-")[2];
+					//debugger;
+
+								
+					$('#mainMove').css("background-image", "url(./img/img_"+name+".png)");
+					$('#subcribe').show();
+					
+					//$('h2').html(Actions[name].name +" "+time);
+					
+					$('#timer').pietimer('callback',function(){						
+						doAction(patternString);
+						document.getElementById("Coin").play();
+						GetCoin();
+					});
+					$('#timer').pietimer('setTime',time*sercondPerMinute);
+					
+					if(sidePattern)
+					{
+						var partition = time*sercondPerMinute/sidePattern.length *1000;
+						ChangeSide();
+						sideTimer=setInterval(function(){ChangeSide()},partition);
+					}else
+					{
+						$('#subcribe').css({'background-image': ''});					
+					}
+						
+			}
+			else
+			{
+				
+				$('#mainMove').animate({opacity: 0}, 'slow', function() {
+									$(this).css({'background-image': 'url(./img/img_finish.png)'})
+									.animate({opacity: 1})}
+									
+									);
+				$('#subcribe').fadeOut('slow');					
+				$('#timer').fadeOut('slow');				
+				document.getElementById("stageClear").play();							
+
+			}
+		}
+
+		function GetCoin()
+		{
+			$('#coin').show().animate({top:"-=30px"}, 'slow', function() {$('#coin').hide().css('top', '-30px');});
+			
+			
+		}
+		
+		function ChangeSide()
+		{
+			//debugger;
+			console.log("trigger");
+			if(sidePattern!="")
+			{
+				if(sidePattern[0]=="l")
+				{
+					$('#subcribe').animate({top:"-=10"},'easeInOutBack',function() {
+									$(this).animate({top:"+=10"},'easeOutBounce');
+									$(this).css({'background-image': 'url(./img/img_Left.png)'})
+									});		
+					
+				}
+				else
+				{
+					$('#subcribe').animate({top:"-=10"},'easeInBack',function() {
+									$(this).animate({top:"+=10"},'easeOutElastic');
+									$(this).css({'background-image': 'url(./img/img_Right.png)'})
+									});		
+				}
+				document.getElementById("Jump").play();
+				sidePattern = sidePattern.slice(1);			
+
+			}						
+		}
+	
+	</script>	
+</head>
+<body>  
+<div id="wrapper">
+
+<h2 id="title">鍛鍊時計</h2>
+
+ <div id="counterBlock" >
+	<img id="coin" src="./img/Coin.gif">
+	<div id="timer"></div>
+	<div id="mainMove"></div>
+	<div id="subcribe"></div>
+ </div>
+ 
+ 
+
+ 
+ <div id="hint"></div>
+ 
+ <hr></hr>
+  
+ <div id="buttonSet">
+	<button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-2,A-2-lr,T-2-lrlr,L-2-lr,S-2-lr,Sh-2-lr')"> 站樁計時 </button>
+ </div>
+ 
+ </div>
+ 
+ 
+<audio src="./audio/SuperMarioBrothers-Coin.mp3" id="Coin" preload="auto"></audio>
+<audio src="./audio/SuperMarioBrothers-ExtraLife.mp3" id="ExtraLife" preload="auto"></audio>
+<audio src="./audio/SuperMarioBrothers-Jump.mp3" id="Jump" preload="auto"></audio>
+<audio src="./audio/SuperMarioBrothers-StageCleared.mp3" id="stageClear" preload="auto"></audio>
+ <div id="footer">
+ 
+	presented by <a href="https://www.facebook.com/pine0113">G.I</a>
+	
+ </div>
+
+</body>
+</html>
