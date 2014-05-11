@@ -35,12 +35,12 @@
 		var sidePattern="";
 		var sercondPerMinute=60;
 		var Actions={};
-			Actions["M"] = {name:"馬步",imgUrl:""};
-			Actions["A"] = {name:"弓步",imgUrl:""};
-			Actions["T"] = {name:"伏虎式",imgUrl:""};
-			Actions["L"] = {name:"獨立式",imgUrl:""};
-			Actions["S"] = {name:"坐盤式",imgUrl:""};
-			Actions["Sh"] = {name:"虛步",imgUrl:""};
+			Actions["M"] = {name:"馬步",imgUrl:"",point:["步伐與肩同寬","","雙腳朝前，不外翻"]};
+			Actions["A"] = {name:"弓步",imgUrl:"",point:["腰跨朝前","前腳朝正前方","後腳朝斜前方","後腿撐直","後腳內側撐地","收提下腹","雙手插腰　肩膀放鬆"]};
+			Actions["T"] = {name:"伏虎式",imgUrl:"",point:[""]};
+			Actions["L"] = {name:"獨立式",imgUrl:"",point:["身體不左右傾","膝蓋不外翻",""]};
+			Actions["S"] = {name:"坐盤式",imgUrl:"",point:[""]};
+			Actions["Sh"] = {name:"虛步",imgUrl:"",point:[""]};
 			
 		function hideTitle()
 		{
@@ -51,24 +51,51 @@
 		{
 			
 			$('#title').fadeOut('slow');
-			$('#buttonSet').fadeOut('slow');			
+			$('#buttonSet').fadeOut('slow');
 			$('hr').fadeOut('slow',function()
 			{
 				$('#counterBlock').fadeIn('slow',function(){
-					$('#mainMove').css("background-image", "url(./img/img_start.png)");
-					$('#timer').pietimer({
-							timerSeconds: 5,
-							color: '#939296',
-							fill: false,
-							showPercentage: false,
-							callback: function() {
-								//alert("yahoo, timer is done!");
-								$('#timer').pietimer('reset');
-								//doAction(patternString);
-							}
+				
+				$('#mainMove').animate({opacity: 0}, 'slow', function() {
+				   $(this).css("background-image", "url(./img/img_3.png)").animate({opacity: 1}, 'slow',function()
+				   {
+						$('#mainMove').animate({opacity: 0}, 'slow', function() {
+						$(this).css("background-image", "url(./img/img_2.png)").animate({opacity: 1}, 'slow',function()
+						{
+							$('#mainMove').animate({opacity: 0}, 'slow', function() {
+							$(this).css("background-image", "url(./img/img_1.png)").animate({opacity: 1}, 'slow',function()
+							{
+								$('#mainMove').animate({opacity: 0}, 'slow', function() {
+								$(this).css("background-image", "url(./img/img_start.png)").animate({opacity: 1}, 'slow',function()
+								{
+									
+										$('#mainMove').css({"background-image": " "});
+										
+										
+											$('#timer').pietimer({
+											timerSeconds: 5,
+											color: '#939296',
+											fill: false,
+											showPercentage: false,
+											callback: function() {
+												//alert("yahoo, timer is done!");
+												$('#timer').pietimer('reset');
+												//doAction(patternString);
+											}		
+											});
+											
+											$('#timer').fadeIn('slow');							
+											doAction(patternString);																			
+																																										
+
+								});
+								});
+							});
 						});
-					$('#timer').fadeIn('slow');
-					doAction(patternString);		
+				   });});	
+				   });});
+					
+					
 					
 				});					
 			});
