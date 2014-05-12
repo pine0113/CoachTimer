@@ -62,7 +62,7 @@
 					
 					var user = Parse.User.current();
 					
-					$("#coinNum").html(user.coin);
+					$("#coinNum").html(user.get("coin"));
 					
 					var Record = Parse.Object.extend("StepsTraining")
 					var query = new Parse.Query(Record);
