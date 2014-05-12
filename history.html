@@ -63,7 +63,7 @@
 					var user = Parse.User.current();
 					
 					var User = Parse.Object.extend("User");
-					var UserQuery = new Parse.Oquery(User);
+					var UserQuery = new Parse.Query(User);
 					UserQuery.get(user.id,
 					{sucess: function (me)
 						{
