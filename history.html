@@ -67,6 +67,11 @@
 					query.find({
 						success: function(records) {
 							messBox("取得紀錄");
+							
+							for(record in records)
+							{
+								console.log(record.date+"\n");
+							}
 							// userPosts contains all of the posts by the current user.
 						},
 						error: function(records,error)
@@ -119,7 +124,7 @@
 <body>  
 <div id="wrapper">
 
- <h2><span class="userName"></span>鍛鍊紀錄 <span id="coinCounter"><img src="./img/Coin.gif">x <span id="coinNum">0</span></span></h2>
+ <h2><span class="userName"></span> 鍛鍊紀錄 <span id="coinCounter"><img src="./img/Coin.gif">x <span id="coinNum">0</span></span></h2>
  <hr></hr>
   
  <div id="buttonSet">
