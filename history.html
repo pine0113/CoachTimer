@@ -61,6 +61,7 @@
 					});
 					
 					var user = Parse.User.current();
+					console.log(user.has("coins"));
 					console.log(user.get("coins"));
 					$("#coinNum").html(user.get("coins"));
 					
