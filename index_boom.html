@@ -49,7 +49,9 @@
   
 	<script>
   
-	 
+		var offset = new Date().getTimezoneOffset();
+		console.log(offset);
+		
 		var sideTimer;
 		var sidePattern="";
 		var preLoadTimer;
@@ -253,7 +255,7 @@
 		function ChangeSide()
 		{
 			//debugger;
-			console.log("trigger");
+			//console.log(" changeSide -trigger");
 			if(sidePattern!="")
 			{
 				if(sidePattern[0]=="l")
