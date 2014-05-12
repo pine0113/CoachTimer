@@ -23,6 +23,40 @@
 	<!--<script type="text/javascript" src="./js/jquery.share.js"></script>
 	<script type="text/javascript" src="./js/bootstrap.js"></script> -->
 	<script type="text/javascript" src="./js/jquery.pietimer.js"></script>
+	<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+	
+	<script type="text/javascript"> //load Parse
+    Parse.initialize("lw3oc9ZYpHxvMb5VyYenA6CqawnnDumxMAs59hL9", "Uy2xpV0Y4f4wDLGJ2TGKkw3gl6snN4pazwOd9BEr");
+    
+  /*  var TestObject = Parse.Object.extend("TestObject");
+    var testObject = new TestObject();
+      testObject.save({foo: "bar"}, {
+      success: function(object) {
+        $(".success").show();
+      },
+      error: function(model, error) {
+        $(".error").show();
+      }
+    });*/
+  </script>
+  
+    <script>	//load FacebookSDK
+      window.fbAsyncInit = function() {
+        Parse.FacebookUtils.init({
+          appId      : '{449939898442125}',
+          xfbml      : true,
+          version    : 'v2.0'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
   
 	<script>
   
@@ -47,7 +81,9 @@
 			Actions["L"] = {name:"獨立式",imgUrl:"",point:["身體不左右傾","膝蓋不外翻",""]};
 			Actions["S"] = {name:"坐盤式",imgUrl:"",point:[""]};
 			Actions["SH"] = {name:"虛步",imgUrl:"",point:[""]};
-			
+
+		var CoinSound = new Audio("./audio/SuperMarioBrothers-Coin.mp3");
+		
 		function hideTitle()
 		{
 			
@@ -139,7 +175,7 @@
 						$('#timer').pietimer('callback',function(){						
 						GetCoin();
 						doAction(patternString);
-						document.getElementById("Coin").play();			
+								
 						$('#subcribe').css({'background-image': 'url()'});
 					
 						
@@ -187,7 +223,9 @@
 
 		function GetCoin()
 		{
-			$('#coin').show().animate({top:"-=30px"}, 'slow', function() {$('#coin').hide().css('top', '-30px');});					
+			$('#coin').show().animate({top:"-=30px"}, 'slow', function() {$('#coin').hide().css('top', '-30px');});		
+			//document.getElementById("Coin").play();		
+			CoinSound.play();
 		}
 		
 		function MoveAlarm(name)
