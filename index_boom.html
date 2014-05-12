@@ -282,28 +282,40 @@
 	
 		function Record()
 		{				
-			//Parse.FacebookUtils.logout();
-			//Parse.User.logOut();
-			Parse.FacebookUtils.logIn(null, {
-			success: function(user) {
+
+			FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+					messBox("已登入");
+				var uid = response.authResponse.userID;
+				var accessToken = response.authResponse.accessToken;
 				
-				/*if (!user.existed()) {
-					alert("User signed up and logged in through Facebook!");									
-				}else 
-				{
-					alert("User logged in through Facebook!");					
-				}
-				*/
 				
-				messBox("FB login sucess");
+			} else if (response.status === 'not_authorized') {
+					messBox("FB未授權");
+			
+			} else {
+					messBox("未登入FB");
+					
+					Parse.FacebookUtils.logIn(null, {
+					success: function(user) {
 				
-				var Record = Parse.Object.extend("StepsTraining");
-				var record = new Record();
- 
-					record.set("user", user.id);
-					record.set("date", new Date());					
+						/*if (!user.existed()) {
+							alert("User signed up and logged in through Facebook!");									
+						}else 
+						{
+							alert("User logged in through Facebook!");					
+						}
+						*/
+				
+						messBox("Parse login sucess");
+				
+						var Record = Parse.Object.extend("StepsTraining");
+						var record = new Record();
 	
-					record.save(null, {
+						record.set("user", user.id);
+						record.set("date", new Date());					
+	
+						record.save(null, {
 						success: function(record) {
 						
 							messBox("Add record sucess");
@@ -315,16 +327,23 @@
 							
 							//alert('Failed to create new object, with error code: ' + error.description);
 						}	
-					});				
+						});				
 				
-			},
-			error: function(user, error) {					
-					messBox("FB login Fail");
-				}
+					},
+					error: function(user, error) {					
+						messBox("Parse login Fail");
+					}
+					});
+										
+			}
 			});
-			
-			
-					
+												
+		}
+		
+		function AddRecord()
+		{
+		
+		
 		}
 		
 		function messBox(mess)
