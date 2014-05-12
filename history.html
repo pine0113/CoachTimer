@@ -89,6 +89,18 @@
 					
 		}
 	
+	
+		function messBox(mess)
+		{
+			$("#messenge").html(mess).fadeIn('slow');							
+			setTimeout(
+			function()
+			{
+				$("#messenge").fadeOut('slow');					
+				
+			},1000
+			);
+		}
 	</script>	
 </head>
 <body>  
