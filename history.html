@@ -54,15 +54,22 @@
 			FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
 					messBox("已登入");
-				
+					debugger;
 					var user = Parse.User.current();
 					var Record = Parse.Object.extend("StepsTraining")
 					var query = new Parse.Query(Record);
 					query.equalTo("user", user);
 					query.find({
 						success: function(records) {
-							debugger;// userPosts contains all of the posts by the current user.
+							messBox("取得紀錄");
+							// userPosts contains all of the posts by the current user.
+						},
+						error: function(records,error)
+						{
+							messBox("error:" + error.description);
 						}
+						
+						
 					});
 				
 				
@@ -71,12 +78,13 @@
 					
 					Parse.FacebookUtils.logIn(null, {
 					success: function(user) {
-				
+						messBox("Parse logIn sucess");
 						
 				
 					},
 					error: function(user, error) {					
 						messBox("Parse login Fail");
+						messBox("error:" + error.description);
 					}
 					});
 					
