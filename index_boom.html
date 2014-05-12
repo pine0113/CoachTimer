@@ -49,13 +49,7 @@
   
 	<script>
   
-     $(document).ready(function() {
-			$('#counterBlock').hide();
-			$('#subcribe').hide();
-			
-			
-			
-      });	 
+	 
 		var sideTimer;
 		var sidePattern="";
 		var preLoadTimer;
@@ -70,6 +64,12 @@
 			Actions["L"] = {name:"獨立式",imgUrl:"",point:["身體不左右傾","膝蓋不外翻",""]};
 			Actions["S"] = {name:"坐盤式",imgUrl:"",point:[""]};
 			Actions["SH"] = {name:"虛步",imgUrl:"",point:[""]};
+			
+	   $(document).ready(function() {
+			$('#counterBlock').hide();
+			$('#subcribe').hide();
+			
+      });
 
 		var CoinSound = new Audio("./audio/SuperMarioBrothers-Coin.mp3");
 		var JumpSound = new Audio("./audio/SuperMarioBrothers-Jump.mp3");
@@ -231,16 +231,17 @@
 		function MoveAlarm(name)
 		{	
 			
-			ActionSound = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);
 			
-			ActionSound.play();
-			setTimeout(function(){ActionSound.pause()},2000);
+			ActionSounds = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);		
+			ActionSounds.play();
+			//setTimeout(function(){ActionSound.pause()},2000);
 			
 			//$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);
 			//document.getElementById("ActionVoice").play();						
 			
 			setTimeout(function()
 			{
+				//debugger;
 				var ChangeSound = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q=換");
 				ChangeSound.play();
 				//$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+"換");
@@ -279,17 +280,19 @@
 		}
 	
 		function Record()
-		{									
-			Parse.FacebookUtils.logIn("user_likes,email", {
+		{					
+			Parse.User.logOut();
+			Parse.FacebookUtils.logIn(null, {
 			success: function(user) {
 				
-				if (!user.existed()) {
+				/*if (!user.existed()) {
 					alert("User signed up and logged in through Facebook!");									
 				}else 
 				{
 					alert("User logged in through Facebook!");					
 				}
-				debugger;
+				*/
+				
 				var Record = Parse.Object.extend("StepsTraining");
 				var record = new Record();
  
@@ -304,9 +307,7 @@
 						error: function(record, error) {					
 							//alert('Failed to create new object, with error code: ' + error.description);
 						}	
-					});
-				
-
+					});				
 				
 			},
 			error: function(user, error) {
