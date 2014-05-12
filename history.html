@@ -58,7 +58,7 @@
 					var user = Parse.User.current();
 					var Record = Parse.Object.extend("StepsTraining")
 					var query = new Parse.Query(Record);
-					query.equalTo("user", user.id);
+					query.equalTo("user", user);
 					query.find({
 						success: function(records) {
 							messBox("取得紀錄");
