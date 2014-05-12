@@ -280,8 +280,8 @@
 	
 		function TEST()
 		{
-			var id = "XD";
-			/*
+			var id;
+			
 			debugger;
 			Parse.FacebookUtils.logIn(null, {
 			success: function(user) {
@@ -291,13 +291,14 @@
 				{
 					alert("User logged in through Facebook!");					
 				}
-				id=user;
+				alert(user);
 			},
 			error: function(user, error) {
 					alert("User cancelled the Facebook login or did not fully authorize.");
+					alert(user);
 				}
 			});
-			*/
+			/*
 			var Record = Parse.Object.extend("StepsTraining");
 			var record = new Record();
  
@@ -313,7 +314,7 @@
 							//alert('Failed to create new object, with error code: ' + error.description);
 						}	
 					});
-					
+				*/	
 		}
 	
 	</script>	
