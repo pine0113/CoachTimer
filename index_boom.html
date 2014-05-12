@@ -286,15 +286,30 @@
 			FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
 					messBox("已登入");
+				
 				var uid = response.authResponse.userID;
 				var accessToken = response.authResponse.accessToken;
+			
+					var User = Parse.Object.extend("User");
+					var user = new Parse.Query(User);
+						user.equalTo("playerName", uid);
+						query.find({
+							success: function(results) {
+								alert("Successfully retrieved " + results.length + " scores.");
+								// Do something with the returned Parse.Object values
+								for (var i = 0; i < results.length; i++) { 
+									var object = results[i];
+									alert(object.id + ' - ' + object.get('playerName'));
+									}
+							},
+							error: function(error) {	
+								alert("Error: " + error.code + " " + error.message);
+							}
+					});
 				
 				
 			} else if (response.status === 'not_authorized') {
 					messBox("FB未授權");
-			
-			} else {
-					messBox("未登入FB");
 					
 					Parse.FacebookUtils.logIn(null, {
 					success: function(user) {
@@ -334,6 +349,11 @@
 						messBox("Parse login Fail");
 					}
 					});
+					
+			} else {
+					messBox("未登入FB");
+					
+					
 										
 			}
 			});
