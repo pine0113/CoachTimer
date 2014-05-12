@@ -64,13 +64,14 @@
 					
 					var User = Parse.Object.extend("User");
 					var UserQuery = new Parse.Oquery(User);
-					var UserQuery.get(user.id,
+					UserQuery.get(user.id,
 					{sucess: function (me)
 						{
 							console.log(me.has("coins"));
 							console.log(me.get("coins"));
 						},
-						error: function (me,error){
+						error: function (me,error)
+						{
 					
 						}
 					});
