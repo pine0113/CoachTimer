@@ -50,22 +50,41 @@
   
 		function getRecord()
 		{				
-			Parse.FacebookUtils.logIn(null, {
-			success: function(user) {
-					debugger;
-					console.log("FB login sucess");
-					
-					FB.api('/me', function(response) {
-					alert('Your name is ' + response.name);
+			
+			FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+					messBox("已登入");
+				
+					var user = Parse.User.current();
+					var Record = Parse.Object.extend("StepsTraining")
+					var query = new Parse.Query(Record);
+					query.equalTo("user", user);
+					query.find({
+						success: function(records) {
+							debugger;// userPosts contains all of the posts by the current user.
+						}
 					});
 				
 				
-			},
-			error: function(user, error) {					
-					console.log("FB login Fail");
-				}
+			} else if (response.status === 'not_authorized') {
+					messBox("FB未授權");
+					
+					Parse.FacebookUtils.logIn(null, {
+					success: function(user) {
+				
+						
+				
+					},
+					error: function(user, error) {					
+						messBox("Parse login Fail");
+					}
+					});
+					
+			} else {
+					messBox("未登入FB");																			
+			}
 			});
-			
+									
 			
 					
 		}
