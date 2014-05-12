@@ -226,6 +226,7 @@
 				$('#timer').fadeOut('slow');				
 				
 				ClearSound.play();
+				
 				//document.getElementById("stageClear").play();							
 
 			}
@@ -242,6 +243,7 @@
 		{			
 			ActionSound = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);
 			ActionSound.play();
+			ActionSound.pause();
 			//$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);
 			//document.getElementById("ActionVoice").play();						
 			
