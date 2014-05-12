@@ -27,17 +27,6 @@
 	
 	<script type="text/javascript"> //load Parse
     Parse.initialize("swtRMGFGKXZI4XTZ6MxMASTIhMV1ZArZhAX4A4fj", "dQgwEycp8c0qoTCAqtDbior2xsCnsMKbTaUSq69a");
-    
-    var TestObject = Parse.Object.extend("TestObject");
-    var testObject = new TestObject();
-      testObject.save({foo: "bar"}, {
-      success: function(object) {
-        $(".success").show();
-      },
-      error: function(model, error) {
-        $(".error").show();
-      }
-    });
   </script>
   
     <script>	//load FacebookSDK
@@ -296,6 +285,24 @@
 			success: function(user) {
 				if (!user.existed()) {
 					alert("User signed up and logged in through Facebook!");
+	
+				var Record = Parse.Object.extend("StepsTraining");
+				var record = new Record();
+ 
+					record.set("user", user);
+					record.set("date", new Date());					
+	
+					record.save(null, {
+						success: function(record) {
+						// Execute any logic that should take place after the object is saved.
+						alert('New object created with objectId: ' + record.id);
+						},
+						error: function(record, error) {					
+						alert('Failed to create new object, with error code: ' + error.description);
+						}	
+					});
+					
+					
 				}else 
 				{
 						alert("User logged in through Facebook!");
