@@ -328,7 +328,7 @@
 						var Record = Parse.Object.extend("StepsTraining");
 						var record = new Record();
 	
-						record.set("user", user);
+						record.set("user", user.id);
 						record.set("date", new Date());					
 	
 						record.save(null, {
@@ -340,7 +340,7 @@
 							//alert('New object created with objectId: ' + record.id);
 						},
 						error: function(record, error) {	
-							messBox("Add record fail"+error.description);
+							messBox("Add record fail:"+error.description);
 							//alert('Failed to create new object, with error code: ' + error.description);
 						}	
 						});		

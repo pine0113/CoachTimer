@@ -54,11 +54,16 @@
 			FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
 					messBox("已登入");
-					debugger;
+					//debugger;
+					
+					FB.api('/me', function(response) {
+						$('.userName').html(response.name);						
+					});
+					
 					var user = Parse.User.current();
 					var Record = Parse.Object.extend("StepsTraining")
 					var query = new Parse.Query(Record);
-					query.equalTo("user", user);
+					query.equalTo("user", user.id);
 					query.find({
 						success: function(records) {
 							messBox("取得紀錄");
@@ -114,7 +119,7 @@
 <body>  
 <div id="wrapper">
 
- <h2>某某某 鍛鍊紀錄 <span id="coinCounter"><img src="./img/Coin.gif">x <span id="coinNum">0</span></span></h2>
+ <h2><span class="userName"></span>鍛鍊紀錄 <span id="coinCounter"><img src="./img/Coin.gif">x <span id="coinNum">0</span></span></h2>
  <hr></hr>
   
  <div id="buttonSet">
