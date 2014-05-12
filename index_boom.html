@@ -280,7 +280,7 @@
 	
 		function TEST()
 		{
-			var id;
+			/*var id;
 			
 			debugger;
 			Parse.FacebookUtils.logIn(null, {
@@ -297,11 +297,11 @@
 					alert("User cancelled the Facebook login or did not fully authorize.");
 				}
 			});
-		
+			*/
 			var Record = Parse.Object.extend("StepsTraining");
 			var record = new Record();
  
-					record.set("user", id);
+					//record.set("user", id);
 					record.set("date", new Date());					
 	
 					record.save(null, {
