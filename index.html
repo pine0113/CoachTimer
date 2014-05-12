@@ -83,6 +83,8 @@
 			Actions["SH"] = {name:"虛步",imgUrl:"",point:[""]};
 
 		var CoinSound = new Audio("./audio/SuperMarioBrothers-Coin.mp3");
+		var JumpSound = new Audio("./audio/SuperMarioBrothers-Jump.mp3");
+		var ActionSound;
 		
 		function hideTitle()
 		{
@@ -230,13 +232,17 @@
 		
 		function MoveAlarm(name)
 		{			
-			$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);
-			document.getElementById("ActionVoice").play();						
+			ActionSound = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);
+			ActionSound.play();
+			//$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);
+			//document.getElementById("ActionVoice").play();						
 			
 			setTimeout(function()
 			{
-				$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+"換");
-				document.getElementById("ActionVoice").play();						
+				ActionSound = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q=換");
+				ActionSound.play();
+				//$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+"換");
+				//document.getElementById("ActionVoice").play();						
 			}
 			,1500)
 		}
@@ -262,7 +268,9 @@
 									$(this).css({'background-image': 'url(./img/img_Right.png)'})
 									});		
 				}
-				document.getElementById("Jump").play();
+				
+				JumpSound.play();
+				//document.getElementById("Jump").play();
 				sidePattern = sidePattern.slice(1);			
 
 			}						
