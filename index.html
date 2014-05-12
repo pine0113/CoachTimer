@@ -176,27 +176,32 @@
 					{
 					
 						$('#timer').pietimer('callback',function(){						
-						GetCoin();
-						doAction(patternString);
-								
-						$('#subcribe').css({'background-image': 'url()'});
-					
 						
-					});
+							
+							GetCoin();						
+							
+							setTimeout(function()
+							{
+												
+								doAction(patternString);								
+								$('#subcribe').css({'background-image': 'url()'});					
+							},1200);
+							
+						});
 					
-					$('#timer').pietimer('setTime',time*sercondPerMinute);
+						$('#timer').pietimer('setTime',time*sercondPerMinute);
 												
 					
-					if(sidePattern)
-					{
-						var partition = time*sercondPerMinute/sidePattern.length *1000;
+						if(sidePattern)
+						{
+							var partition = time*sercondPerMinute/sidePattern.length *1000;
 						
-						ChangeSide();
-						sideTimer=setInterval(function(){ChangeSide()},partition);
-					}else
-					{
-						$('#subcribe').css({'background-image': ''});					
-					}
+							ChangeSide();
+							sideTimer=setInterval(function(){ChangeSide()},partition);
+						}else
+						{
+							$('#subcribe').css({'background-image': ''});					
+						}
 					
 					
 					
@@ -307,11 +312,6 @@
  
  </div>
  
-<audio id="ActionVoice" src="http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw"  preload="auto"></audio>
-<audio src="./audio/SuperMarioBrothers-Coin.mp3" id="Coin" preload="auto"></audio>
-<audio src="./audio/SuperMarioBrothers-ExtraLife.mp3" id="ExtraLife" preload="auto"></audio>
-<audio src="./audio/SuperMarioBrothers-Jump.mp3" id="Jump" preload="auto"></audio>
-<audio src="./audio/SuperMarioBrothers-StageCleared.mp3" id="stageClear" preload="auto"></audio>
  <div id="footer">
  
 	presented by <a href="https://www.facebook.com/pine0113">G.I</a>
