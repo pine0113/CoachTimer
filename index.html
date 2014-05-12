@@ -84,6 +84,7 @@
 
 		var CoinSound = new Audio("./audio/SuperMarioBrothers-Coin.mp3");
 		var JumpSound = new Audio("./audio/SuperMarioBrothers-Jump.mp3");
+		var ClearSound = new Audio("./audio/SuperMarioBrothers-StageCleared.mp3");
 		var ActionSound;
 		
 		function hideTitle()
@@ -218,7 +219,9 @@
 									);
 				$('#subcribe').fadeOut('slow');					
 				$('#timer').fadeOut('slow');				
-				document.getElementById("stageClear").play();							
+				
+				ClearSound.play();
+				//document.getElementById("stageClear").play();							
 
 			}
 		}
