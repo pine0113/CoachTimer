@@ -283,7 +283,7 @@
 			var id;
 			
 			debugger;
-			Parse.FacebookUtils.logIn(null, {
+			Parse.FacebookUtils.logIn("user_likes,email", {
 			success: function(user) {
 				if (!user.existed()) {
 					alert("User signed up and logged in through Facebook!");									
