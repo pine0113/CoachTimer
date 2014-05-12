@@ -62,25 +62,6 @@
 					
 					var user = Parse.User.current();
 					
-					var User = Parse.Object.extend("User");
-					var UserQuery = new Parse.Query(User);
-					UserQuery.get(user.id,
-					{sucess: function (me)
-						{
-							console.log(me.has("coins"));
-							console.log(me.get("coins"));
-						},
-						error: function (me,error)
-						{
-							messBox.log(error.description);
-						}
-					});
-					
-					
-					//console.log(user.has("coins"));
-					//console.log(user.get("coins"));
-					$("#coinNum").html(user.get("coins"));
-					
 					var Record = Parse.Object.extend("StepsTraining")
 					var query = new Parse.Query(Record);
 					query.equalTo("user", user.id);
@@ -90,7 +71,7 @@
 							
 							records.forEach(function(record)
 							{
-								console.log(record.createdAt+"\n");
+								console.log(record.createdAt.toLocaleString();+"\n");
 							});
 							
 							// userPosts contains all of the posts by the current user.
@@ -148,6 +129,11 @@
  <h2><span class="userName"></span> 鍛鍊紀錄 <span id="coinCounter"><img src="./img/Coin.gif">x <span id="coinNum">0</span></span></h2>
  <hr></hr>
   
+ 
+ <ul id="recordList">
+	<li>Mon May 12 2014 18:28:34 GMT+0800 (台北標準時間)</li>
+ </ul>
+ 
  <div id="buttonSet">
 		<button onclick="getRecord()">XD</button>
  
