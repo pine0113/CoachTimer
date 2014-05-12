@@ -326,6 +326,8 @@
 		
 		function AddRecord()
 		{
+		
+						user=Parse.User.current();
 						var Record = Parse.Object.extend("StepsTraining");
 						var record = new Record();
 	
