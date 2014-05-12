@@ -23,7 +23,14 @@
 	</script>
   
     <script>	//load FacebookSDK
-      window.fbAsyncInit = function() {
+    
+    </script>
+  
+	<script>
+  
+		$(document).ready(function(){
+			
+			  window.fbAsyncInit = function() {
         Parse.FacebookUtils.init({
           appId      : '449939898442125',
           //xfbml      : true,
@@ -38,12 +45,7 @@
          js.src = "http://connect.facebook.net/en_US/all.js";
          fjs.parentNode.insertBefore(js, fjs);
        }(document, 'script', 'facebook-jssdk'));
-    </script>
-  
-	<script>
-  
-		$(document).ready(function(){
-		
+			
 			getRecord();
 		
 		});
