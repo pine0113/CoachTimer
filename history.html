@@ -54,7 +54,7 @@
 			FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
 					messBox("已登入");
-					//debugger;
+					debugger;
 					
 					FB.api('/me', function(response) {
 						$('.userName').html(response.name);						
