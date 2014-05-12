@@ -280,7 +280,8 @@
 		}
 	
 		function Record()
-		{					
+		{				
+			FB.logout();
 			Parse.User.logOut();
 			Parse.FacebookUtils.logIn(null, {
 			success: function(user) {
