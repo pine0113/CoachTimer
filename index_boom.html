@@ -328,8 +328,7 @@
 						var Record = Parse.Object.extend("StepsTraining");
 						var record = new Record();
 	
-						record.set("user", user.id);
-						record.set("date", new Date());					
+						record.set("user", user.id);						
 	
 						record.save(null, {
 						success: function(record) {
