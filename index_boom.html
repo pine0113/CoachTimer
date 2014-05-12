@@ -293,6 +293,7 @@
 					alert("User logged in through Facebook!");					
 				}
 				*/
+				console.log("FB login sucess");
 				
 				var Record = Parse.Object.extend("StepsTraining");
 				var record = new Record();
@@ -302,18 +303,19 @@
 	
 					record.save(null, {
 						success: function(record) {
+							console.log("Add record sucess");
 							// Execute any logic that should take place after the object is saved.
 							//alert('New object created with objectId: ' + record.id);
 						},
 						error: function(record, error) {					
+							console.log("Add record fail");
 							//alert('Failed to create new object, with error code: ' + error.description);
 						}	
 					});				
 				
 			},
-			error: function(user, error) {
-					alert("User cancelled the Facebook login or did not fully authorize.");
-					alert(user);
+			error: function(user, error) {					
+					console.log("FB login Fail");
 				}
 			});
 			
