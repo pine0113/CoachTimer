@@ -68,10 +68,11 @@
 						success: function(records) {
 							messBox("取得紀錄");
 							
-							for(record in records)
+							records.forEach(function(record)
 							{
 								console.log(record.createdAt+"\n");
-							}
+							});
+							
 							// userPosts contains all of the posts by the current user.
 						},
 						error: function(records,error)
