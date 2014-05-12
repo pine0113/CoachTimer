@@ -61,7 +61,7 @@
 					});
 					
 					var user = Parse.User.current();
-					
+					console.log(user.get("coin"));
 					$("#coinNum").html(user.get("coin"));
 					
 					var Record = Parse.Object.extend("StepsTraining")
