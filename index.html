@@ -30,17 +30,23 @@
 			$('#counterBlock').hide();
 			$('#subcribe').hide();
 			
+			
+			
       });	 
 		var sideTimer;
 		var sidePattern="";
+		var preLoadTimer;
+	
 		var sercondPerMinute=60;
+		
+		
 		var Actions={};
 			Actions["M"] = {name:"馬步",imgUrl:"",point:["步伐與肩同寬","","雙腳朝前，不外翻"]};
 			Actions["A"] = {name:"弓步",imgUrl:"",point:["腰跨朝前","前腳朝正前方","後腳朝斜前方","後腿撐直","後腳內側撐地","收提下腹","雙手插腰　肩膀放鬆"]};
 			Actions["T"] = {name:"伏虎式",imgUrl:"",point:[""]};
 			Actions["L"] = {name:"獨立式",imgUrl:"",point:["身體不左右傾","膝蓋不外翻",""]};
 			Actions["S"] = {name:"坐盤式",imgUrl:"",point:[""]};
-			Actions["Sh"] = {name:"虛步",imgUrl:"",point:[""]};
+			Actions["SH"] = {name:"虛步",imgUrl:"",point:[""]};
 			
 		function hideTitle()
 		{
@@ -126,22 +132,42 @@
 					
 					//$('h2').html(Actions[name].name +" "+time);
 					
-					$('#timer').pietimer('callback',function(){						
-						doAction(patternString);
-						document.getElementById("Coin").play();
+					MoveAlarm(name);
+					setTimeout(function()
+					{
+					
+						$('#timer').pietimer('callback',function(){						
 						GetCoin();
+						doAction(patternString);
+						document.getElementById("Coin").play();			
+						$('#subcribe').css({'background-image': 'url()'});
+					
+						
 					});
+					
 					$('#timer').pietimer('setTime',time*sercondPerMinute);
+												
 					
 					if(sidePattern)
 					{
 						var partition = time*sercondPerMinute/sidePattern.length *1000;
+						
 						ChangeSide();
 						sideTimer=setInterval(function(){ChangeSide()},partition);
 					}else
 					{
 						$('#subcribe').css({'background-image': ''});					
 					}
+					
+					
+					
+					
+					
+					},2000)
+					
+					
+					
+	
 						
 			}
 			else
@@ -161,9 +187,20 @@
 
 		function GetCoin()
 		{
-			$('#coin').show().animate({top:"-=30px"}, 'slow', function() {$('#coin').hide().css('top', '-30px');});
+			$('#coin').show().animate({top:"-=30px"}, 'slow', function() {$('#coin').hide().css('top', '-30px');});					
+		}
+		
+		function MoveAlarm(name)
+		{			
+			$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);
+			document.getElementById("ActionVoice").play();						
 			
-			
+			setTimeout(function()
+			{
+				$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+"換");
+				document.getElementById("ActionVoice").play();						
+			}
+			,1500)
 		}
 		
 		function ChangeSide()
@@ -221,7 +258,7 @@
  
  </div>
  
- 
+<audio id="ActionVoice" src="http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw"  preload="auto"></audio>
 <audio src="./audio/SuperMarioBrothers-Coin.mp3" id="Coin" preload="auto"></audio>
 <audio src="./audio/SuperMarioBrothers-ExtraLife.mp3" id="ExtraLife" preload="auto"></audio>
 <audio src="./audio/SuperMarioBrothers-Jump.mp3" id="Jump" preload="auto"></audio>
