@@ -242,15 +242,17 @@
 		function MoveAlarm(name)
 		{			
 			ActionSound = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);
+			
 			ActionSound.play();
-			ActionSound.pause();
+			setTimeout(function(){ActionSound.pause()},2000);
+			
 			//$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);
 			//document.getElementById("ActionVoice").play();						
 			
 			setTimeout(function()
 			{
-				ActionSound = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q=換");
-				ActionSound.play();
+				var ChangeSound = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q=換");
+				ChangeSound.play();
 				//$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+"換");
 				//document.getElementById("ActionVoice").play();						
 			}
