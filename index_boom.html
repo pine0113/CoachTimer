@@ -280,16 +280,28 @@
 	
 		function TEST()
 		{
+			var id;
+			
 			debugger;
 			Parse.FacebookUtils.logIn(null, {
 			success: function(user) {
 				if (!user.existed()) {
-					alert("User signed up and logged in through Facebook!");
-	
-				var Record = Parse.Object.extend("StepsTraining");
-				var record = new Record();
+					alert("User signed up and logged in through Facebook!");									
+				}else 
+				{
+					alert("User logged in through Facebook!");					
+				}
+				id=user;
+			},
+			error: function(user, error) {
+					alert("User cancelled the Facebook login or did not fully authorize.");
+				}
+			});
+		
+			var Record = Parse.Object.extend("StepsTraining");
+			var record = new Record();
  
-					record.set("user", user);
+					record.set("user", id);
 					record.set("date", new Date());					
 	
 					record.save(null, {
@@ -301,18 +313,6 @@
 						alert('Failed to create new object, with error code: ' + error.description);
 						}	
 					});
-					
-					
-				}else 
-				{
-						alert("User logged in through Facebook!");
-				}
-			},
-			error: function(user, error) {
-					alert("User cancelled the Facebook login or did not fully authorize.");
-				}
-			});
-		
 		}
 	
 	</script>	
