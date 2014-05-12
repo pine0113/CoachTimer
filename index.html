@@ -82,9 +82,9 @@
 			Actions["S"] = {name:"坐盤式",imgUrl:"",point:[""]};
 			Actions["SH"] = {name:"虛步",imgUrl:"",point:[""]};
 
-		var CoinSound = new Audio("./audio/SuperMarioBrothers-Coin.mp3");
-		var JumpSound = new Audio("./audio/SuperMarioBrothers-Jump.mp3");
-		var ClearSound = new Audio("./audio/SuperMarioBrothers-StageCleared.mp3");
+		
+		
+		
 		var ActionSound;
 		
 		function hideTitle()
@@ -224,7 +224,8 @@
 									);
 				$('#subcribe').fadeOut('slow');					
 				$('#timer').fadeOut('slow');				
-				
+		
+				var ClearSound = new Audio("./audio/SuperMarioBrothers-StageCleared.mp3");
 				ClearSound.play();
 				
 				//document.getElementById("stageClear").play();							
@@ -236,6 +237,7 @@
 		{
 			$('#coin').show().animate({top:"-=30px"}, 'slow', function() {$('#coin').hide().css('top', '-30px');});		
 			//document.getElementById("Coin").play();		
+			var CoinSound = new Audio("./audio/SuperMarioBrothers-Coin.mp3");
 			CoinSound.play();
 		}
 		
@@ -282,7 +284,7 @@
 									$(this).css({'background-image': 'url(./img/img_Right.png)'})
 									});		
 				}
-				
+				var JumpSound = new Audio("./audio/SuperMarioBrothers-Jump.mp3");
 				JumpSound.play();
 				//document.getElementById("Jump").play();
 				sidePattern = sidePattern.slice(1);			
