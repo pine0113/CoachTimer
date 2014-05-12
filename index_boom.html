@@ -280,8 +280,8 @@
 	
 		function TEST()
 		{
-			/*var id;
-			
+			var id = "XD";
+			/*
 			debugger;
 			Parse.FacebookUtils.logIn(null, {
 			success: function(user) {
@@ -301,18 +301,19 @@
 			var Record = Parse.Object.extend("StepsTraining");
 			var record = new Record();
  
-					//record.set("user", id);
+					record.set("user", id);
 					record.set("date", new Date());					
 	
 					record.save(null, {
 						success: function(record) {
-						// Execute any logic that should take place after the object is saved.
-						alert('New object created with objectId: ' + record.id);
+							// Execute any logic that should take place after the object is saved.
+							//alert('New object created with objectId: ' + record.id);
 						},
 						error: function(record, error) {					
-						alert('Failed to create new object, with error code: ' + error.description);
+							//alert('Failed to create new object, with error code: ' + error.description);
 						}	
 					});
+					
 		}
 	
 	</script>	
