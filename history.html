@@ -55,6 +55,10 @@
 			success: function(user) {
 					debugger;
 					console.log("FB login sucess");
+					
+					FB.api('/me', function(response) {
+					alert('Your name is ' + response.name);
+					});
 				
 				
 			},
