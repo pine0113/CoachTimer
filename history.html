@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="./favicon.ico">
+
+    <title>歷史紀錄 | 鍛鍊時計</title>
+
+    <!-- Bootstrap core CSS -->      
+	<link href="./css/bootstrap-theme.css" rel="stylesheet">	
+	<link href="./css/coachTimer.css" rel="stylesheet"> 		
+	
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+	
+	
+	<script type="text/javascript"> //load Parse
+    Parse.initialize("swtRMGFGKXZI4XTZ6MxMASTIhMV1ZArZhAX4A4fj", "dQgwEycp8c0qoTCAqtDbior2xsCnsMKbTaUSq69a");
+	</script>
+  
+    <script>	//load FacebookSDK
+      window.fbAsyncInit = function() {
+        Parse.FacebookUtils.init({
+          appId      : '449939898442125',
+          //xfbml      : true,
+          //version    : 'v2.0'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "http://connect.facebook.net/en_US/all.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+  
+	<script>
+	
+		$(document).ready(function()
+		{
+		
+			getRecord();
+			
+		});
+  
+		function getRecord()
+		{				
+			Parse.FacebookUtils.logIn(null, {
+			success: function(user) {
+					debugger;
+					console.log("FB login sucess");
+				
+				
+			},
+			error: function(user, error) {					
+					console.log("FB login Fail");
+				}
+			});
+			
+			
+					
+		}
+	
+	</script>	
+</head>
+<body>  
+<div id="wrapper">
+
+ <h2>某某某 鍛鍊紀錄 <span id="coinCounter"><img src="./img/coin.gif">x <span id="coinNum">0</span></span></h2>
+ <hr></hr>
+  
+ <div id="buttonSet">
+		
+ 
+ </div>
+ 
+ <div id="messenge">
+ 
+ </div>
+ 
+ <div id="footer">
+ 
+	presented by <a href="https://www.facebook.com/pine0113">G.I</a>
+	
+ </div>
+
+</body>
+</html>
