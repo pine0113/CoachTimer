@@ -341,7 +341,7 @@
 							//alert('New object created with objectId: ' + record.id);
 						},
 						error: function(record, error) {	
-							
+							messBox("Add record fail"+error.description);
 							//alert('Failed to create new object, with error code: ' + error.description);
 						}	
 						});		
