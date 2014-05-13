@@ -117,7 +117,7 @@
 			
 			records.forEach(function(record)
 			{
-				var d = new Date(record.iso);
+				var d = new Date(record.createdAt);
 				if(d.getFullYear() == today.getFullYear() && d.getMonth() == today.getMonth())
 				{
 					doneDays[d.getDate()] = true;
