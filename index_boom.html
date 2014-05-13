@@ -324,7 +324,48 @@
 		function AddRecord()
 		{
 		
-						var user = Parse.User.current();
+						
+						var user = Parse.User.current();												
+						var Coin = Parse.Object.exted("Coin");
+						
+						var coin = new Coin();
+						
+						coin.set("user",user.id);
+						coin.set("coinNum",0);
+						
+						var query = new Parse.Query(Coin);
+						query.equalTo("user", user.id);
+						query.first({
+							success: function(userCoin) {
+							messBox("取得User Coin數");												
+							coin = userCoin;// userPosts contains all of the posts by the current user.							
+						},
+						error: function(coins,error)
+						{
+							messBox("error:" + error.description);							
+						}												
+						});						
+						
+						
+						coin.set("coinNum",coin.get("coinNum")+6);						
+						
+						coin.save(null, {
+						success: function(coin) {
+						
+							messBox("Add coin sucess");
+							//console.log("");
+							// Execute any logic that should take place after the object is saved.
+							//alert('New object created with objectId: ' + record.id);
+						},
+						error: function(coin, error) {	
+							messBox("Add coin fail:"+error.description);
+							//alert('Failed to create new object, with error code: ' + error.description);
+						}	
+						});		
+						
+						
+						
+						
 						var Record = Parse.Object.extend("StepsTraining");
 						var record = new Record();
 	
@@ -344,6 +385,11 @@
 						}	
 						});		
 		
+		}
+		
+		function getUserCoin(user)
+		{
+
 		}
 		
 		function messBox(mess)
