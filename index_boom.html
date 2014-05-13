@@ -336,7 +336,7 @@
 								messBox("取得User Coin數");		
 								coin = userCoin;
 								
-								coin.coinNum=coin.coinNum+6;						
+								coin.attributes["coinNum"]=coin.attributes["coinNum"]+6;					
 						
 								coin.save(null, {
 								success: function(coin) {
