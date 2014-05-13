@@ -335,6 +335,25 @@
 							if(userCoin){
 								messBox("取得User Coin數");		
 								coin = userCoin;
+								
+								coin.coinNum=coin.coinNum+6;						
+						
+								coin.save(null, {
+								success: function(coin) {
+						
+									messBox("Add coin sucess");
+									//console.log("");
+									// Execute any logic that should take place after the object is saved.
+									//alert('New object created with objectId: ' + record.id);
+								},
+								error: function(coin, error) {	
+									messBox("Add coin fail:"+error.description);
+									//alert('Failed to create new object, with error code: ' + error.description);
+								}	
+								});		
+						
+								
+								
 							}else
 							{
 								messBox("你不曾有錢過?!");		
@@ -342,6 +361,23 @@
 								coin = new Coin();							
 								coin.set("user",user.id);
 								coin.set("coinNum",0);
+								
+								coin.coinNum=coin.coinNum+6;						
+						
+								coin.save(null, {
+								success: function(coin) {
+							
+									messBox("Add coin sucess");
+									//console.log("");
+									// Execute any logic that should take place after the object is saved.
+									//alert('New object created with objectId: ' + record.id);
+								},
+								error: function(coin, error) {	
+									messBox("Add coin fail:"+error.description);
+									//alert('Failed to create new object, with error code: ' + error.description);
+								}	
+								});		
+						
 							}
 							
 							 // userPosts contains all of the posts by the current user.							
@@ -353,21 +389,6 @@
 						}												
 						});						
 												
-						coin.coinNum=coin.coinNum+6;						
-						
-						coin.save(null, {
-						success: function(coin) {
-						
-							messBox("Add coin sucess");
-							//console.log("");
-							// Execute any logic that should take place after the object is saved.
-							//alert('New object created with objectId: ' + record.id);
-						},
-						error: function(coin, error) {	
-							messBox("Add coin fail:"+error.description);
-							//alert('Failed to create new object, with error code: ' + error.description);
-						}	
-						});		
 						
 						
 						
