@@ -336,7 +336,7 @@
 								messBox("取得User Coin數");		
 								coin = userCoin;
 								
-								coin.attributes["coinNum"]=coin.attributes["coinNum"]+6;					
+								coin.set("coinNum",coin.attributes["coinNum"]+6);
 						
 								coin.save(null, {
 								success: function(coin) {
@@ -362,7 +362,8 @@
 								coin.set("user",user.id);
 								coin.set("coinNum",0);
 								
-								coin.attributes["coinNum"]=coin.attributes["coinNum"]+6;						
+								coin.set("coinNum",coin.attributes["coinNum"]+6);
+													
 						
 								coin.save(null, {
 								success: function(coin) {
