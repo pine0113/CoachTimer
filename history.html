@@ -112,6 +112,7 @@
 		
 		function getUserCoin()
 		{
+				var user = Parse.User.current();
 				var Coin = Parse.Object.extend("Coin");
 						var coin;
 						var query = new Parse.Query(Coin);
