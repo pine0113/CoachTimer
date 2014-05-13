@@ -29,6 +29,9 @@
           //xfbml      : true,
           //version    : 'v2.0'
         });		
+		
+		getRecord();
+		
       };
 
       (function(d, s, id){
@@ -69,10 +72,8 @@
 						success: function(records) {
 							messBox("取得紀錄");
 							
-							records.forEach(function(record)
-							{
-								console.log(record.createdAt.toLocaleString();+"\n");
-							});
+							makeList(records)
+				
 							
 							// userPosts contains all of the posts by the current user.
 						},
@@ -109,7 +110,23 @@
 					
 		}
 	
-	
+		function makeList(records)
+		{		
+			var today = new Date();
+			
+			for(var i=13;i>=1;i--)
+			{
+				$('#recordList').append('<li><span class="date">'+i+'</span><span class="label"></span></li>');				
+			}
+				records.forEach(function(record)
+				{
+					console.log(record.createdAt.toLocaleString()+"\n");
+				});
+						
+		}
+		
+		
+		
 		function messBox(mess)
 		{
 			$("#messenge").html(mess).fadeIn('slow');							
@@ -131,11 +148,11 @@
   
  
  <ul id="recordList">
-	<li>Mon May 12 2014 18:28:34 GMT+0800 (台北標準時間)</li>
+	
  </ul>
  
  <div id="buttonSet">
-		<button onclick="getRecord()">XD</button>
+		<button onclick="makeList()">XD</button>
  
  </div>
  

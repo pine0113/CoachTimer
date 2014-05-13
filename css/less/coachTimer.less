@@ -244,10 +244,58 @@ text-align:center;
 	right:200px;
 }
 
-#recordList
+#recordList 
 {
-	margin: 20px auto 20px auto;
-	width:600px;
+
+	
+	margin: 20px auto 0px auto;
+	width:600px;	
+	//border:1px solid;
+	border-color:white;		
+	//padding:2px;
 	list-style:none;
+	
+	li
+	{
+		border:1px solid;
+		border-color:white;		
+		margin-top:0px;
+		height:60px;
+		padding:0px;
+		display:block;
+	}
+	
+	.date
+	{			
+		width:50px;
+		height:50px;
+		padding:5px;
+		font-size:40px;
+		background-color:@deep2;		
+		
+		display:inline-block;
+		
+		text-align:center;
+	}
+	
+	.label {
+	
+		height:50px;
+		width:526px;				
+		padding:5px;
+		font-size:40px;
+		text-align:center;
+		display:inline-block;
+		color:white;
+	}
+	
+	.pass {
+		background-color:@green;
+		
+	}
+	
+	.unpass {
+		background-color:@shallow;		
+	}
 	
 }
