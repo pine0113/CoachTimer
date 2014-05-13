@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <!-- <link rel="shortcut icon" href="../../assets/ico/favicon.ico">-->
+    <link rel="shortcut icon" href="./favicon.ico">
 
     <title>鍛鍊時計</title>
 
@@ -22,19 +22,18 @@
 	<!--<script type="text/javascript" src="./js/jquery.share.js"></script>
 	<script type="text/javascript" src="./js/bootstrap.js"></script> -->
 	<script type="text/javascript" src="./js/jquery.pietimer.js"></script>
-	<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
-	<script src="//www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+	<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>	
 	
 	<script type="text/javascript"> //load Parse
-    Parse.initialize("swtRMGFGKXZI4XTZ6MxMASTIhMV1ZArZhAX4A4fj", "dQgwEycp8c0qoTCAqtDbior2xsCnsMKbTaUSq69a");    
+    Parse.initialize("swtRMGFGKXZI4XTZ6MxMASTIhMV1ZArZhAX4A4fj", "dQgwEycp8c0qoTCAqtDbior2xsCnsMKbTaUSq69a");
 	</script>
   
     <script>	//load FacebookSDK
       window.fbAsyncInit = function() {
         Parse.FacebookUtils.init({
-          appId      : '{449939898442125}',
-          xfbml      : true,
-          version    : 'v2.0'
+          appId      : '449939898442125',
+          //xfbml      : true,
+          //version    : 'v2.0'
         });
       };
 
@@ -42,20 +41,16 @@
          var js, fjs = d.getElementsByTagName(s)[0];
          if (d.getElementById(id)) {return;}
          js = d.createElement(s); js.id = id;
-         js.src = "//connect.facebook.net/en_US/sdk.js";
+         js.src = "//connect.facebook.net/en_US/all.js";
          fjs.parentNode.insertBefore(js, fjs);
        }(document, 'script', 'facebook-jssdk'));
     </script>
   
 	<script>
   
-     $(document).ready(function() {
-			$('#counterBlock').hide();
-			$('#subcribe').hide();
-			
-			
-			
-      });	 
+		var offset = new Date().getTimezoneOffset();
+		console.log(offset);
+		
 		var sideTimer;
 		var sidePattern="";
 		var preLoadTimer;
@@ -70,6 +65,12 @@
 			Actions["L"] = {name:"獨立式",imgUrl:"",point:["身體不左右傾","膝蓋不外翻",""]};
 			Actions["S"] = {name:"坐盤式",imgUrl:"",point:[""]};
 			Actions["SH"] = {name:"虛步",imgUrl:"",point:[""]};
+			
+	   $(document).ready(function() {
+			$('#counterBlock').hide();
+			$('#subcribe').hide();
+			
+      });
 
 		var CoinSound = new Audio("./audio/SuperMarioBrothers-Coin.mp3");
 		var JumpSound = new Audio("./audio/SuperMarioBrothers-Jump.mp3");
@@ -215,7 +216,7 @@
 				$('#timer').fadeOut('slow');				
 				
 				ClearSound.play();
-				
+				Record();
 				//document.getElementById("stageClear").play();							
 
 			}
@@ -231,16 +232,17 @@
 		function MoveAlarm(name)
 		{	
 			
-			ActionSound = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);
 			
-			ActionSound.play();
-			setTimeout(function(){ActionSound.pause()},2000);
+			ActionSounds = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);		
+			ActionSounds.play();
+			//setTimeout(function(){ActionSound.pause()},2000);
 			
 			//$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);
 			//document.getElementById("ActionVoice").play();						
 			
 			setTimeout(function()
 			{
+				//debugger;
 				var ChangeSound = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q=換");
 				ChangeSound.play();
 				//$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+"換");
@@ -252,7 +254,7 @@
 		function ChangeSide()
 		{
 			//debugger;
-			console.log("trigger");
+			//console.log(" changeSide -trigger");
 			if(sidePattern!="")
 			{
 				if(sidePattern[0]=="l")
@@ -278,6 +280,163 @@
 			}						
 		}
 	
+		function Record()
+		{				
+
+			FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+					messBox("已登入");
+				
+					AddRecord();
+				
+				
+			} else if (response.status === 'not_authorized') {
+					messBox("FB未授權");
+					
+					Parse.FacebookUtils.logIn(null, {
+					success: function(user) {
+				
+						/*if (!user.existed()) {
+							alert("User signed up and logged in through Facebook!");									
+						}else 
+						{
+							alert("User logged in through Facebook!");					
+						}
+						*/
+				
+						messBox("Parse login sucess");
+						AddRecord()
+		
+				
+					},
+					error: function(user, error) {					
+						messBox("Parse login Fail");
+					}
+					});
+					
+			} else {
+					messBox("未登入FB");																			
+			}
+			});
+												
+		}
+		
+		function AddRecord()
+		{
+		
+						
+						var user = Parse.User.current();												
+						var Coin = Parse.Object.extend("Coin");
+						var coin;
+						var query = new Parse.Query(Coin);
+						query.equalTo("user", user.id);
+						query.first({
+							success: function(userCoin) {
+							if(userCoin){
+								messBox("取得User Coin數");		
+								coin = userCoin;
+								
+								coin.set("coinNum",coin.attributes["coinNum"]+6);
+						
+								coin.save(null, {
+								success: function(coin) {
+						
+									messBox("Add coin sucess");
+									//console.log("");
+									// Execute any logic that should take place after the object is saved.
+									//alert('New object created with objectId: ' + record.id);
+								},
+								error: function(coin, error) {	
+									messBox("Add coin fail:"+error.description);
+									//alert('Failed to create new object, with error code: ' + error.description);
+								}	
+								});		
+						
+								
+								
+							}else
+							{
+								messBox("你不曾有錢過?!");		
+								
+								coin = new Coin();							
+								coin.set("user",user.id);
+								coin.set("coinNum",0);
+								
+								coin.set("coinNum",coin.attributes["coinNum"]+6);
+													
+						
+								coin.save(null, {
+								success: function(coin) {
+							
+									messBox("Add coin sucess");
+									//console.log("");
+									// Execute any logic that should take place after the object is saved.
+									//alert('New object created with objectId: ' + record.id);
+								},
+								error: function(coin, error) {	
+									messBox("Add coin fail:"+error.description);
+									//alert('Failed to create new object, with error code: ' + error.description);
+								}	
+								});		
+						
+							}
+							
+							 // userPosts contains all of the posts by the current user.							
+						},
+						error: function(coins,error)
+						{
+							messBox("error:" + error.description);							
+							
+						}												
+						});						
+												
+						
+						
+						
+						
+						var Record = Parse.Object.extend("StepsTraining");
+						var record = new Record();
+	
+						record.set("user", user.id);						
+	
+						record.save(null, {
+						success: function(record) {
+						
+							messBox("Add record sucess");
+							//console.log("");
+							// Execute any logic that should take place after the object is saved.
+							//alert('New object created with objectId: ' + record.id);
+						},
+						error: function(record, error) {	
+							messBox("Add record fail:"+error.description);
+							//alert('Failed to create new object, with error code: ' + error.description);
+						}	
+						});		
+		
+		}
+		
+		function getUserCoin(user)
+		{
+
+		}
+		
+		function messBox(mess)
+		{
+			$("#messenge").html(mess).fadeIn('slow');							
+			setTimeout(
+			function()
+			{
+				$("#messenge").fadeOut('slow');					
+				
+			},1000
+			);
+		}
+		
+		function TEST()
+		{
+			Record();//messBox("wow");
+		}
+	
 	</script>	
 </head>
 <body>  
@@ -301,9 +460,15 @@
   
  <div id="buttonSet">
 	<button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-2,A-2-lr,T-2-lrlr,L-2-lr,S-2-lr,SH-2-lr')"> 站樁計時 </button>
-	<button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-0.1,A-0.1-lr,T-0.1-lrlr,L-0.1-lr,S-0.1-lr,SH-0.1-lr')"> 快速測試 </button>	
+	<!-- <button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-0.1,A-0.1-lr,T-0.1-lrlr,L-0.1-lr,S-0.1-lr,SH-0.1-lr')"> 快速測試 </button>	-->
+	<button type="button" class="btn btn-lg btn-primary" onClick="location.href='history.html'"> 歷史紀錄 </button>	
+	
  </div>
  
+ </div>
+ 
+ <div id="messenge">
+
  </div>
  
  <div id="footer">
