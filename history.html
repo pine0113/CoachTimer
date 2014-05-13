@@ -109,6 +109,35 @@
 			
 					
 		}
+		
+		function getUserCoin()
+		{
+				var Coin = Parse.Object.extend("Coin");
+						var coin;
+						var query = new Parse.Query(Coin);
+						query.equalTo("user", user.id);
+						query.first({
+							success: function(userCoin) {
+							if(userCoin){
+								messBox("取得User Coin數");		
+								coin = userCoin;								
+								$('#coinNum').html(coin.attributes["coinNum"]);													
+								
+							}else
+							{
+								messBox("無金錢紀錄?!");																								
+							}
+							
+							 // userPosts contains all of the posts by the current user.							
+						},
+						error: function(coins,error)
+						{
+							messBox("error:" + error.description);							
+							
+						}												
+						});						
+												
+		}
 	
 		function makeList(records)
 		{		
