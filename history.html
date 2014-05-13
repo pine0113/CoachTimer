@@ -113,15 +113,29 @@
 		function makeList(records)
 		{		
 			var today = new Date();
+			var doneDays =[];
 			
-			for(var i=13;i>=1;i--)
+			records.forEach(function(record)
 			{
-				$('#recordList').append('<li><span class="date">'+i+'</span><span class="label"> ? </span></li>');				
-			}
-				records.forEach(function(record)
+				var record;
+				if(record.getFullYear() == today.getFullYear() && record.getMonth() == today.getMonth())
 				{
-					console.log(record.createdAt.toLocaleString()+"\n");
-				});
+					doneDays[record.getDate()] = true;
+				}								
+			});
+						
+			
+			
+			for(var i=today.getDate();i>=1;i--)
+			{
+				if(doneDays[i]){
+					$('#recordList').append('<li><span class="date">'+i+'</span><span class="label pass"> 通過 </span></li>');
+				}else
+				{
+						$('#recordList').append('<li><span class="date">'+i+'</span><span class="label unpass"> 未通過 </span></li>');
+				}
+			}
+				
 						
 		}
 		
