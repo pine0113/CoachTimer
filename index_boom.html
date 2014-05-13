@@ -327,11 +327,7 @@
 						
 						var user = Parse.User.current();												
 						var Coin = Parse.Object.extend("Coin");
-						
-						var coin = new Coin();
-						debugger;
-						coin.set("user",user.id);
-						coin.set("coinNum",0);
+						var coin;						
 						
 						var query = new Parse.Query(Coin);
 						query.equalTo("user", user.id);
@@ -343,10 +339,12 @@
 						error: function(coins,error)
 						{
 							messBox("error:" + error.description);							
+							coin = new Coin();							
+							coin.set("user",user.id);
+							coin.set("coinNum",0);
 						}												
 						});						
-						
-						
+												
 						coin.set("coinNum",coin.get("coinNum")+6);						
 						
 						coin.save(null, {
