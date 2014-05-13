@@ -117,10 +117,10 @@
 			
 			records.forEach(function(record)
 			{
-				var record;
-				if(record.getFullYear() == today.getFullYear() && record.getMonth() == today.getMonth())
+				var d = new Date(record.iso);
+				if(d.getFullYear() == today.getFullYear() && d.getMonth() == today.getMonth())
 				{
-					doneDays[record.getDate()] = true;
+					doneDays[d.getDate()] = true;
 				}								
 			});
 						
@@ -157,7 +157,7 @@
 <body>  
 <div id="wrapper">
 
- <h2><span class="userName"></span> 的本月鍛鍊紀錄 <span id="coinCounter"><img src="./img/Coin.gif">x <span id="coinNum">0</span></span></h2>
+ <h2><span class="userName">某某某</span> 的本月鍛鍊紀錄 <span id="coinCounter"><img src="./img/Coin.gif">x <span id="coinNum">0</span></span></h2>
  <hr></hr>
   
  
