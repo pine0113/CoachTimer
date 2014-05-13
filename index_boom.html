@@ -56,7 +56,9 @@
 		var preLoadTimer;
 	
 		var sercondPerMinute=60;
-		
+		var mode="default";
+		var cycle=1;
+		var originPatternString="";
 		
 		var Actions={};
 			Actions["M"] = {name:"馬步",imgUrl:"",point:["步伐與肩同寬","","雙腳朝前，不外翻"]};
@@ -69,6 +71,7 @@
 	   $(document).ready(function() {
 			$('#counterBlock').hide();
 			$('#subcribe').hide();
+			$('#customActionText').hide();
 			
       });
 
@@ -82,8 +85,15 @@
 			
 		}	
 			
-		function Coachtimer(patternString)
+		function Coachtimer(patternString,pmode,pcycle)
 		{
+			pmode = typeof pmode !== 'undefined' ? pmode : 'default';
+			pcycle = typeof pcycle !== 'undefined' ? pcycle : 1;
+			
+			mode = pmode;
+			cycle = pcycle;
+			originPatternString=patternString;
+			
 			//CoinSound.play();
 			$('#title').fadeOut('slow');
 			$('#buttonSet').fadeOut('slow');
@@ -106,7 +116,7 @@
 									
 										$('#mainMove').css({"background-image": " "});
 										
-										
+											
 											$('#timer').pietimer({
 											timerSeconds: 5,
 											color: '#939296',
@@ -119,7 +129,15 @@
 											}		
 											});
 											
-											$('#timer').fadeIn('slow');							
+											$('#timer').fadeIn('slow');
+											
+											var temp = patternString;
+											
+											for(var i=0; i<pcycle-1;i++)
+											{
+												patternString += ","+temp;
+											}
+											
 											doAction(patternString);																			
 																																										
 
@@ -150,13 +168,30 @@
 				var Step = patternString.slice(0,location);
 				patternString = patternString.slice(location+1);
 				
+				if(cycle==0 && patternString=="")
+				{
+					patternString = originPatternString;
+				}
+				
 					var name = Step.split("-")[0];
 					var time = Step.split("-")[1];
 					sidePattern = Step.split("-")[2];
 					//debugger;
 
-								
-					$('#mainMove').css("background-image", "url(./img/img_"+name+".png)");
+					
+					switch(mode)
+					{
+						case "default":
+								$('#mainMove').css("background-image", "url(./img/img_"+name+".png)");
+						break;
+						
+						case "custom":
+								$('#mainMove').css("background-image", "url()");
+								$('#customActionText').html(name).fadeIn('slow');
+						break;
+					}
+					
+					
 					$('#subcribe').show();
 					
 					//$('h2').html(Actions[name].name +" "+time);
@@ -185,7 +220,7 @@
 						if(sidePattern)
 						{
 							var partition = time*sercondPerMinute/sidePattern.length *1000;
-						
+					
 							ChangeSide();
 							sideTimer=setInterval(function(){ChangeSide()},partition);
 						}else
@@ -207,6 +242,11 @@
 			else
 			{
 				
+				if(mode=='custom')
+				{						
+					$('#customActionText').hide();					
+				}
+				
 				$('#mainMove').animate({opacity: 0}, 'slow', function() {
 									$(this).css({'background-image': 'url(./img/img_finish.png)'})
 									.animate({opacity: 1})}
@@ -216,7 +256,11 @@
 				$('#timer').fadeOut('slow');				
 				
 				ClearSound.play();
-				Record();
+				
+				if(mode=='default')
+				{						
+					Record();
+				}				
 				//document.getElementById("stageClear").play();							
 
 			}
@@ -233,22 +277,33 @@
 		{	
 			
 			
-			ActionSounds = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);		
+			switch(mode)
+					{
+						case "default":
+								ActionSounds = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);		
+						break;
+						
+						case "custom":
+								ActionSounds = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+name);		
+						break;
+					}
+					
 			ActionSounds.play();
-			//setTimeout(function(){ActionSound.pause()},2000);
-			
+			//setTimeout(function(){ActionSound.pause()},2000);			
 			//$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+Actions[name].name);
 			//document.getElementById("ActionVoice").play();						
 			
-			setTimeout(function()
-			{
-				//debugger;
-				var ChangeSound = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q=換");
-				ChangeSound.play();
-				//$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+"換");
-				//document.getElementById("ActionVoice").play();						
-			}
+			if(mode=="default"){
+				setTimeout(function()
+				{
+					//debugger;				
+					var ChangeSound = new Audio ("http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q=換");
+					ChangeSound.play();
+					//$("#ActionVoice").attr("src","http://translate.google.com/translate_tts?ie=utf-8&tl=zh-tw&q="+"換");
+					//document.getElementById("ActionVoice").play();						
+				}
 			,1500)
+			}
 		}
 		
 		function ChangeSide()
@@ -356,7 +411,7 @@
 								
 							}else
 							{
-								messBox("你不曾有錢過?!");		
+								messBox("新增coin帳戶");		
 								
 								coin = new Coin();							
 								coin.set("user",user.id);
@@ -447,7 +502,7 @@
  <div id="counterBlock" >
 	<img id="coin" src="./img/Coin.gif">
 	<div id="timer"></div>
-	<div id="mainMove"></div>
+	<div id="mainMove"><span id="customActionText">XDrz</span></div>
 	<div id="subcribe"></div>
  </div>
  
@@ -462,6 +517,7 @@
 	<button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-2,A-2-lr,T-2-lrlr,L-2-lr,S-2-lr,SH-2-lr')"> 站樁計時 </button>
 	<!-- <button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-0.1,A-0.1-lr,T-0.1-lrlr,L-0.1-lr,S-0.1-lr,SH-0.1-lr')"> 快速測試 </button>	-->
 	<button type="button" class="btn btn-lg btn-primary" onClick="location.href='history.html'"> 歷史紀錄 </button>	
+	<!--<button type="button" class="btn btn-lg btn-primary" onClick="Coachtimer('讀書-0.02-lrlr,休息-0.01','custom',0)"> 自定動作 </button>-->
 	
  </div>
  
