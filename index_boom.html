@@ -362,7 +362,7 @@
 								coin.set("user",user.id);
 								coin.set("coinNum",0);
 								
-								coin.coinNum=coin.coinNum+6;						
+								coin.attributes["coinNum"]=coin.attributes["coinNum"]+6;						
 						
 								coin.save(null, {
 								success: function(coin) {
