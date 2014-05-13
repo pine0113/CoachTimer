@@ -327,20 +327,29 @@
 						
 						var user = Parse.User.current();												
 						var Coin = Parse.Object.extend("Coin");
-						
+						var coin;
 						var query = new Parse.Query(Coin);
 						query.equalTo("user", user.id);
 						query.first({
 							success: function(userCoin) {
-							messBox("取得User Coin數");												
-							var coin = userCoin;// userPosts contains all of the posts by the current user.							
+							if(userCoin){
+								messBox("取得User Coin數");		
+								coin = userCoin;
+							}else
+							{
+								messBox("你不曾有錢過?!");		
+								
+								coin = new Coin();							
+								coin.set("user",user.id);
+								coin.set("coinNum",0);
+							}
+							
+							 // userPosts contains all of the posts by the current user.							
 						},
 						error: function(coins,error)
 						{
 							messBox("error:" + error.description);							
-							var coin = new Coin();							
-							coin.set("user",user.id);
-							coin.set("coinNum",0);
+							
 						}												
 						});						
 												
