@@ -36,6 +36,7 @@
           //version    : 'v2.0'
         });
 		
+		FB.getLoginStatus(function(response){FBresponse = response});
 		console.log("load FB finished");
       };
 
@@ -78,7 +79,7 @@
 			$('#customActionText').hide();
 			parseLogCheck();
 			
-			FB.getLoginStatus(function(response){FBresponse = response});
+			
 			
       });
 
