@@ -74,6 +74,7 @@
 			$('#counterBlock').hide();
 			$('#subcribe').hide();
 			$('#customActionText').hide();
+			parseLogCheck();
 			
       });
 
@@ -354,6 +355,8 @@
 		
 		function login()
 		{
+		
+			
 			debugger;
 			FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
@@ -373,8 +376,8 @@
 							alert("User logged in through Facebook!");					
 						}
 						*/
-				
-						messBox("Parse login success");
+						
+						messBox("Parse login success");						
 					//	AddRecord()
 		
 				
@@ -403,7 +406,7 @@
 						}
 						*/
 				
-						messBox("Parse login success");
+						messBox("Parse login success");						
 						//AddRecord()
 		
 				
@@ -417,11 +420,27 @@
 					messBox("未登入FB");																			
 			}
 			});
+			parseLogCheck();
+		}
+		
+		function parseLogCheck()
+		{
+			var user = Parse.User.current();	
+			if (user==null)
+			{
+				$("#loginButton").show();
+				$("#logoutButton").hide();
+			}else
+			{
+				$("#loginButton").hide();
+				$("#logoutButton").show();
+			}
 		}
 		
 		function logout()
 		{
 			Parse.User.logOut();
+			parseLogCheck();
 		}
 		
 		function AddRecord()
@@ -505,6 +524,10 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="./index.html">Home</a></li>
             <li><a href="./history.html">歷史紀錄</a></li>            			           
+			<li><a id="loginButton" onclick="login()">以Facebook登入</a>
+				<a id="logoutButton" onclick="logout()">登出</a>
+			</li> 
+			
           </ul>
         </div><!--/.nav-collapse -->
       </div>
