@@ -343,6 +343,7 @@
 		{				
 		
 			debugger;
+			var user = Parse.User.current();
 			if(user == null)
 			{
 				login();
@@ -381,6 +382,9 @@
 							messBox("Parse login Fail");
 						}
 						});
+					}else
+					{
+						messBox("Parse already login");
 					}
 					
 					//AddRecord();								
