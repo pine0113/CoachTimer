@@ -343,17 +343,26 @@
 		{				
 		
 			debugger;
-
+			if( typeof user == 'undefine')
+			{
+				login();
+			}
+			
+			AddRecord()				
+		}
+		
+		function login()
+		{
+			debugger;
 			FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
-					messBox("已登入");
-				
-					AddRecord();								
-			} else if (response.status === 'not_authorized') {
-					messBox("FB未授權");
+					messBox("FB已登入授權");								
+					var user = Parse.User.current();
 					
-					Parse.FacebookUtils.logIn(null, {
-					success: function(user) {
+					if( typeof user == 'undefine')
+					{
+						Parse.FacebookUtils.logIn(null, {
+						success: function(user) {
 				
 						/*if (!user.existed()) {
 							alert("User signed up and logged in through Facebook!");									
@@ -363,31 +372,18 @@
 						}
 						*/
 				
-						messBox("Parse login sucess");
-						AddRecord()
+						messBox("Parse login success");
+					//	AddRecord()
 		
 				
-					},
-					error: function(user, error) {					
-						messBox("Parse login Fail");
+						},
+						error: function(user, error) {					
+							messBox("Parse login Fail");
+						}
+						});
 					}
-					});
 					
-			} else {
-					messBox("未登入FB");																			
-			}
-			});
-												
-		}
-		
-		function login()
-		{
-			debugger;
-			FB.getLoginStatus(function(response) {
-			if (response.status === 'connected') {
-					messBox("已登入");
-				
-					AddRecord();								
+					//AddRecord();								
 			} else if (response.status === 'not_authorized') {
 					messBox("FB未授權");
 					
@@ -403,7 +399,7 @@
 						*/
 				
 						messBox("Parse login success");
-						AddRecord()
+						//AddRecord()
 		
 				
 					},
