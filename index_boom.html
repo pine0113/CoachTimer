@@ -343,7 +343,7 @@
 		{				
 		
 			debugger;
-			if( typeof user == 'undefine')
+			if( typeof user == 'null')
 			{
 				login();
 			}
@@ -359,7 +359,7 @@
 					messBox("FB已登入授權");								
 					var user = Parse.User.current();
 					
-					if( typeof user == 'undefine')
+					if( typeof user == 'null')
 					{
 						Parse.FacebookUtils.logIn(null, {
 						success: function(user) {
