@@ -467,90 +467,7 @@
 							// error is a Parse.Error with an error code and description.
 							}
 							
-							});/*
-						query.first({						
-							success:function(user)
-							{
-								messBox("get User seccess");
-								
-								var coin = user.attributes["Coin"];
-								
-								
-							},
-							error:function (user,error)
-							{
-								messBox("get User fail " +error.description);
-							}
-							});
-						
-						/*
-						var Coin = Parse.Object.extend("Coin");
-						var coin;
-						var query = new Parse.Query(Coin);
-						query.equalTo("user", user.id);
-						query.first({
-							success: function(userCoin) {
-							if(userCoin){
-								messBox("取得User Coin數");		
-								coin = userCoin;
-								
-								coin.set("coinNum",coin.attributes["coinNum"]+6);
-						
-								coin.save(null, {
-								success: function(coin) {
-						
-									messBox("Add coin sucess");
-									//console.log("");
-									// Execute any logic that should take place after the object is saved.
-									//alert('New object created with objectId: ' + record.id);
-								},
-								error: function(coin, error) {	
-									messBox("Add coin fail:"+error.description);
-									//alert('Failed to create new object, with error code: ' + error.description);
-								}	
-								});		
-						
-								
-								
-							}else
-							{
-								messBox("新增coin帳戶");		
-								
-								coin = new Coin();							
-								coin.set("user",user.id);
-								coin.set("coinNum",0);
-								
-								coin.set("coinNum",coin.attributes["coinNum"]+6);
-													
-						
-								coin.save(null, {
-								success: function(coin) {
-							
-									messBox("Add coin sucess");
-									//console.log("");
-									// Execute any logic that should take place after the object is saved.
-									//alert('New object created with objectId: ' + record.id);
-								},
-								error: function(coin, error) {	
-									messBox("Add coin fail:"+error.description);
-									//alert('Failed to create new object, with error code: ' + error.description);
-								}	
-								});		
-						
-							}
-							
-							 // userPosts contains all of the posts by the current user.							
-						},
-						error: function(coins,error)
-						{
-							messBox("error:" + error.description);							
-							
-						}												
-						});						
-						*/						
-																	
-						
-						
+							});						
 		
 		}
 		
@@ -567,10 +484,7 @@
 			);
 		}
 		
-		function TEST()
-		{
-			Record();//messBox("wow");
-		}
+		
 	
 	</script>	
 </head>
