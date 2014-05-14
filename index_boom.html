@@ -359,9 +359,7 @@
 		}
 		
 		function login()
-		{
-		
-			
+		{					
 			debugger;			
 			if (FBresponse.status === 'connected') {
 					messBox("FB已登入授權");
@@ -447,6 +445,7 @@
 		{
 			Parse.User.logOut();
 			parseLogCheck();
+			messBox("登出成功");
 		}
 		
 		function AddRecord()
@@ -558,7 +557,7 @@
  <hr></hr>
   
  <div id="buttonSet">
-	<button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-0.05,A-0.05-lr','custom',0)"> 快速測試 </button>
+	<button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-0.05,A-0.05-lr','custom')"> 快速測試 </button>
 	<button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-2,A-2-lr,T-2-lrlr,L-2-lr,S-2-lr,SH-2-lr')"> 站樁計時 </button>	
 	
 	<button type="button" class="btn btn-lg btn-primary" onclick="login()"> login-Test </button>	
