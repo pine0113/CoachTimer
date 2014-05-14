@@ -1,16 +1,27 @@
+#timer, #timer *
+{
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;	
+}
+
 #timer {
 	position:fix;
     margin: 0 auto;
     width: 300px;
 	height: 300px;
+	
 }
 
-.pietimer {
+.pietimer{
     position:relative;
     font-size: 200px;
     width:1em;
     height:1em;
     float: left;
+	
+
+	/* -webkit-box-sizing: border-box; */
+
 }
 
 .pietimer > .slice {
