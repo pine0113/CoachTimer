@@ -432,8 +432,34 @@
 							query.get(cuser.id, {
   							success: function(user) {
 								debugger;
-								var coin = user.get("Coins");
-								messBox (coin);
+								var coin = user.get("Coins");																
+								user.set("Coins",coin+6);
+								user.save();
+								messBox("Add coin sucess");
+								
+								
+								var Record = Parse.Object.extend("StepsTraining");
+								var record = new Record();
+	
+								record.set("user",user);
+	
+								record.save(null, {
+								success: function(record) 
+								{
+								
+									messBox("Add record sucess");
+									//console.log("");
+									// Execute any logic that should take place after the object is saved.
+									//alert('New object created with objectId: ' + record.id);
+								},
+								error: function(record, error) 
+								{	
+									messBox("Add record fail:"+error.description);
+									//alert('Failed to create new object, with error code: ' + error.description);
+								}	
+								
+								});		
+								
 							},
 							error: function(error) {
 								messBox (error.description);
@@ -449,25 +475,6 @@
 								
 								var coin = user.attributes["Coin"];
 								
-								var Record = Parse.Object.extend("StepsTraining");
-								var record = new Record();
-	
-								record.set("user",user);
-	
-								record.save(null, {
-								success: function(record) {
-								
-									messBox("Add record sucess");
-									//console.log("");
-									// Execute any logic that should take place after the object is saved.
-									//alert('New object created with objectId: ' + record.id);
-								},
-								error: function(record, error) {	
-									messBox("Add record fail:"+error.description);
-									//alert('Failed to create new object, with error code: ' + error.description);
-								}	
-								
-								});		
 								
 							},
 							error:function (user,error)
