@@ -357,7 +357,8 @@
 			debugger;
 			FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
-					messBox("FB已登入授權");								
+					messBox("FB已登入授權");
+					Parse.User.logOut();					
 					var user = Parse.User.current();
 					
 					if(user == null)
