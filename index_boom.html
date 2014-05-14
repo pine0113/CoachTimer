@@ -453,9 +453,9 @@
 								});		
 								
 							},
-							error:function ()
+							error:function (user,error)
 							{
-								messBox("get User fail");
+								messBox("get User fail " +error.description);
 							}
 							});
 						
