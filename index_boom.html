@@ -362,7 +362,7 @@
 		
 			
 			debugger;			
-			if (response.status === 'connected') {
+			if (FBresponse.status === 'connected') {
 					messBox("FB已登入授權");
 					Parse.User.logOut();					
 					var user = Parse.User.current();
