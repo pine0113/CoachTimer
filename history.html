@@ -114,29 +114,33 @@
 		function getUserCoin()
 		{
 				var user = Parse.User.current();
-				var Coin = Parse.Object.extend("Coin");
-						var coin;
-						var query = new Parse.Query(Coin);
-						query.equalTo("user", user.id);
-						query.first({
-							success: function(userCoin) {
-							if(userCoin){
-								messBox("取得User Coin數");		
-								coin = userCoin;								
-								$('#coinNum').html(coin.attributes["coinNum"]);													
-								
+				
+				var cuser = Parse.User.current();			
+					var User = Parse.Object.extend("User");
+					var query = new Parse.Query(User);
+						query.get(cuser.id, {
+  						success: function(user) {
+							debugger;
+							
+							var coin = user.get("Coins");
+							if(coin)
+							{
+								messBox("取得User Coin數");										
+							
 							}else
 							{
-								messBox("無金錢紀錄?!");																								
+								coin = 0;
+								messBox("取得User Coin數 fail");										
 							}
-							
-							 // userPosts contains all of the posts by the current user.							
+								$('#coinNum').html(coin);		
+							//messBox (coin);
 						},
-						error: function(coins,error)
-						{
-							messBox("error:" + error.description);							
-							
-						}												
+						error: function(error) {
+							messBox (error.description);
+						// The object was not retrieved successfully.
+						// error is a Parse.Error with an error code and description.
+							}
+						
 						});						
 												
 		}
@@ -160,10 +164,10 @@
 			for(var i=today.getDate();i>=1;i--)
 			{
 				if(doneDays[i]){
-					$('#recordList').append('<li><span class="date">'+i+'</span><span class="label pass"> 通過 </span></li>');
+					$('#recordList').append('<li><span class="date">'+i+'</span><span class="des pass"> 通過 </span></li>');
 				}else
 				{
-						$('#recordList').append('<li><span class="date">'+i+'</span><span class="label unpass"> 未通過 </span></li>');
+						$('#recordList').append('<li><span class="date">'+i+'</span><span class="des unpass"> 未通過 </span></li>');
 				}
 			}
 				
