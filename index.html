@@ -35,6 +35,9 @@
           //xfbml      : true,
           //version    : 'v2.0'
         });
+		
+		FB.getLoginStatus(function(response){FBresponse = response});
+		console.log("load FB finished");
       };
 
       (function(d, s, id){
@@ -67,11 +70,16 @@
 			Actions["L"] = {name:"獨立式",imgUrl:"",point:["身體不左右傾","膝蓋不外翻",""]};
 			Actions["S"] = {name:"坐盤式",imgUrl:"",point:[""]};
 			Actions["SH"] = {name:"虛步",imgUrl:"",point:[""]};
+		
+		var FBresponse;
 			
 	   $(document).ready(function() {
 			$('#counterBlock').hide();
 			$('#subcribe').hide();
 			$('#customActionText').hide();
+			parseLogCheck();
+			
+			
 			
       });
 
@@ -273,28 +281,7 @@
 			CoinSound.play();
 		}
 		
-		function drawPie(num)
-		{			
-			
-			debugger;
-			$('#counterBlock').show();
-			$('#timer').show();
-			$('#timer').pietimer({
-				timerSeconds: 5,
-				color: '#939296',
-				fill: false,
-				showPercentage: false,
-				callback: function() {
-					//alert("yahoo, timer is done!");
-					//$('#timer').pietimer('reset');
-					//doAction(patternString);
-					$('#timer').pietimer('setTime',1);
-					$('#timer').pietimer('drawTimer', num);
-					}		
-			});
-			
-			
-		}
+	
 		
 		function MoveAlarm(name)
 		{	
@@ -360,51 +347,55 @@
 	
 		function Record()
 		{				
-
-			FB.getLoginStatus(function(response) {
-			if (response.status === 'connected') {
-					messBox("已登入");
-				
-					AddRecord();								
-			} else if (response.status === 'not_authorized') {
-					messBox("FB未授權");
-					
-					Parse.FacebookUtils.logIn(null, {
-					success: function(user) {
-				
-						/*if (!user.existed()) {
-							alert("User signed up and logged in through Facebook!");									
-						}else 
-						{
-							alert("User logged in through Facebook!");					
-						}
-						*/
-				
-						messBox("Parse login sucess");
-						AddRecord()
 		
-				
-					},
-					error: function(user, error) {					
-						messBox("Parse login Fail");
-					}
-					});
-					
-			} else {
-					messBox("未登入FB");																			
+			debugger;
+			var user = Parse.User.current();
+			if(user == null)
+			{				
+				login();
 			}
-			});
-												
+			
+			AddRecord()				
 		}
 		
 		function login()
-		{
-			FB.getLoginStatus(function(response) {
-			if (response.status === 'connected') {
-					messBox("已登入");
+		{					
+			debugger;			
+			if (FBresponse.status === 'connected') {
+					messBox("FB已登入授權");
+					Parse.User.logOut();					
+					var user = Parse.User.current();
+					
+					if(user == null)
+					{
+						Parse.FacebookUtils.logIn(null, {
+						success: function(user) {
 				
-					AddRecord();								
-			} else if (response.status === 'not_authorized') {
+						/*if (!user.existed()) {
+							alert("User signed up and logged in through Facebook!");									
+						}else 
+						{
+							alert("User logged in through Facebook!");					
+						}
+						*/
+						
+						messBox("Parse login success");		
+						parseLogCheck();
+					//	AddRecord()
+		
+				
+						},
+						error: function(user, error) {					
+							messBox("Parse login Fail");
+						}
+						});
+					}else
+					{
+						messBox("Parse already login");
+					}
+					
+					//AddRecord();								
+			} else if (FBresponse.status === 'not_authorized') {
 					messBox("FB未授權");
 					
 					Parse.FacebookUtils.logIn(null, {
@@ -418,8 +409,9 @@
 						}
 						*/
 				
-						messBox("Parse login success");
-						AddRecord()
+						messBox("Parse login success");		
+						parseLogCheck();						
+						//AddRecord()
 		
 				
 					},
@@ -431,108 +423,79 @@
 			} else {
 					messBox("未登入FB");																			
 			}
-			});
+			
+			
+		}
+		
+		function parseLogCheck()
+		{
+			var user = Parse.User.current();	
+			if (user==null)
+			{
+				$("#loginButton").show();
+				$("#logoutButton").hide();
+			}else
+			{
+				$("#loginButton").hide();
+				$("#logoutButton").show();
+			}
+		}
+		
+		function logout()
+		{
+			Parse.User.logOut();
+			parseLogCheck();
+			messBox("登出成功");
 		}
 		
 		function AddRecord()
-		{
-		
-						
-						var user = Parse.User.current();												
-						var Coin = Parse.Object.extend("Coin");
-						var coin;
-						var query = new Parse.Query(Coin);
-						query.equalTo("user", user.id);
-						query.first({
-							success: function(userCoin) {
-							if(userCoin){
-								messBox("取得User Coin數");		
-								coin = userCoin;
+		{					
+						var cuser = Parse.User.current();			
+						var User = Parse.Object.extend("User");
+						var query = new Parse.Query(User);
+							query.get(cuser.id, {
+  							success: function(user) {
+								debugger;
+								var coin = user.get("Coins");																
+								user.set("Coins",coin+6);
+								user.save();
+								messBox("Add coin sucess");
 								
-								coin.set("coinNum",coin.attributes["coinNum"]+6);
-						
-								coin.save(null, {
-								success: function(coin) {
-						
-									messBox("Add coin sucess");
+								
+								var Record = Parse.Object.extend("StepsTraining");
+								var record = new Record();
+	
+								record.set("user",user);
+	
+								record.save(null, {
+								success: function(record) 
+								{
+								
+									messBox("Add record sucess");
 									//console.log("");
 									// Execute any logic that should take place after the object is saved.
 									//alert('New object created with objectId: ' + record.id);
 								},
-								error: function(coin, error) {	
-									messBox("Add coin fail:"+error.description);
+								error: function(record, error) 
+								{	
+									messBox("Add record fail:"+error.description);
 									//alert('Failed to create new object, with error code: ' + error.description);
 								}	
+								
 								});		
-						
 								
-								
-							}else
-							{
-								messBox("新增coin帳戶");		
-								
-								coin = new Coin();							
-								coin.set("user",user.id);
-								coin.set("coinNum",0);
-								
-								coin.set("coinNum",coin.attributes["coinNum"]+6);
-													
-						
-								coin.save(null, {
-								success: function(coin) {
-							
-									messBox("Add coin sucess");
-									//console.log("");
-									// Execute any logic that should take place after the object is saved.
-									//alert('New object created with objectId: ' + record.id);
-								},
-								error: function(coin, error) {	
-									messBox("Add coin fail:"+error.description);
-									//alert('Failed to create new object, with error code: ' + error.description);
-								}	
-								});		
-						
+							},
+							error: function(error) {
+								messBox (error.description);
+							// The object was not retrieved successfully.
+							// error is a Parse.Error with an error code and description.
 							}
 							
-							 // userPosts contains all of the posts by the current user.							
-						},
-						error: function(coins,error)
-						{
-							messBox("error:" + error.description);							
-							
-						}												
-						});						
-												
-						
-						
-						
-						
-						var Record = Parse.Object.extend("StepsTraining");
-						var record = new Record();
-	
-						record.set("user", user.id);						
-	
-						record.save(null, {
-						success: function(record) {
-						
-							messBox("Add record sucess");
-							//console.log("");
-							// Execute any logic that should take place after the object is saved.
-							//alert('New object created with objectId: ' + record.id);
-						},
-						error: function(record, error) {	
-							messBox("Add record fail:"+error.description);
-							//alert('Failed to create new object, with error code: ' + error.description);
-						}	
-						});		
+							});						
 		
 		}
 		
-		function getUserCoin(user)
-		{
 
-		}
-		
 		function messBox(mess)
 		{
 			$("#messenge").html(mess).fadeIn('slow');							
@@ -545,10 +508,7 @@
 			);
 		}
 		
-		function TEST()
-		{
-			Record();//messBox("wow");
-		}
+		
 	
 	</script>	
 </head>
@@ -568,7 +528,11 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="./index.html">Home</a></li>
-            <li><a href="./history.html">歷史紀錄</a></li>            			       
+            <li><a href="./history.html">歷史紀錄</a></li>            			           
+			<li><a id="loginButton" onclick="login()">以Facebook登入</a>
+				<a id="logoutButton" onclick="logout()">登出</a>
+			</li> 
+			
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -593,8 +557,11 @@
  <hr></hr>
   
  <div id="buttonSet">
-	<button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-0.05,A-0.05-lr','custom',0)"> 快速測試 </button>
+	<button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-0.05,A-0.05-lr')"> 快速測試 </button>
 	<button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-2,A-2-lr,T-2-lrlr,L-2-lr,S-2-lr,SH-2-lr')"> 站樁計時 </button>	
+	
+	<!--  <button type="button" class="btn btn-lg btn-primary" onclick="login()"> login-Test </button>	-->
+	<!-- <button type="button" class="btn btn-lg btn-primary" onclick="Record()">  Record-Test </button>	-->
 	<!--<button type="button" class="btn btn-lg btn-primary" onClick="Coachtimer('讀書-0.02-lrlr,休息-0.01','custom',0)"> 自定動作 </button>-->
 	
  </div>
