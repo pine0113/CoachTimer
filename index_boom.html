@@ -419,12 +419,29 @@
 			});
 		}
 		
+		function logout()
+		{
+			Parse.User.logOut();
+		}
+		
 		function AddRecord()
 		{					
 						var cuser = Parse.User.current();			
 						var User = Parse.Object.extend("User");
 						var query = new Parse.Query(User);
-						query.equalTo("objectId",cuser.id);
+							query.get(cuser.id, {
+  							success: function(user) {
+								debugger;
+								var coin = cusr.get("coins");
+								messBox (coin);
+							},
+							error: function(error) {
+								messBox (error.description);
+							// The object was not retrieved successfully.
+							// error is a Parse.Error with an error code and description.
+							}
+							
+							});/*
 						query.first({						
 							success:function(user)
 							{
