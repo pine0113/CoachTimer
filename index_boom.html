@@ -69,12 +69,16 @@
 			Actions["L"] = {name:"獨立式",imgUrl:"",point:["身體不左右傾","膝蓋不外翻",""]};
 			Actions["S"] = {name:"坐盤式",imgUrl:"",point:[""]};
 			Actions["SH"] = {name:"虛步",imgUrl:"",point:[""]};
+		
+		var FBresponse;
 			
 	   $(document).ready(function() {
 			$('#counterBlock').hide();
 			$('#subcribe').hide();
 			$('#customActionText').hide();
 			parseLogCheck();
+			
+			FB.getLoginStatus(function(response){FBresponse = response});
 			
       });
 
@@ -346,7 +350,7 @@
 			debugger;
 			var user = Parse.User.current();
 			if(user == null)
-			{
+			{				
 				login();
 			}
 			
@@ -357,8 +361,7 @@
 		{
 		
 			
-			debugger;
-			FB.getLoginStatus(function(response) {
+			debugger;			
 			if (response.status === 'connected') {
 					messBox("FB已登入授權");
 					Parse.User.logOut();					
@@ -393,7 +396,7 @@
 					}
 					
 					//AddRecord();								
-			} else if (response.status === 'not_authorized') {
+			} else if (FBresponse.status === 'not_authorized') {
 					messBox("FB未授權");
 					
 					Parse.FacebookUtils.logIn(null, {
@@ -421,7 +424,7 @@
 			} else {
 					messBox("未登入FB");																			
 			}
-			});
+			
 			
 		}
 		
