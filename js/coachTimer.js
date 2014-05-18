@@ -20,6 +20,7 @@
 '            <li class="active"><a href="./index.html">Home</a></li>'+
 '            <li><a href="./history.html">歷史紀錄</a></li>            			           '+
 '            <li><a href="./log.html">開發紀錄</a></li>            			           '+
+'            <li><a href="./index_boom.html">會爆炸beta版</a></li>            			           '+
 '			<li><a id="loginButton" onclick="login()">以Facebook登入</a>'+
 '				<a id="logoutButton" onclick="logout()">登出</a>'+
 '			</li> 			'+
