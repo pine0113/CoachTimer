@@ -17,15 +17,75 @@
 	<link href="./css/jquery.share.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="./css/pietimer.css">	
 	
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/jquery-1.11.0.min.js"></script>
 	<script type="text/javascript" src="./js/jquery.easing.1.3.js"></script>
-	<!--<script type="text/javascript" src="./js/jquery.share.js"></script>
-	<script type="text/javascript" src="./js/bootstrap.js"></script> -->
-	<script type="text/javascript" src="./js/jquery.pietimer.js"></script>
+	<script type="text/javascript" src="./js/jquery-ui-1.10.4.min.js"></script>
+	
 	<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>	
 	
-	<script type="text/javascript"> //load Parse
-    Parse.initialize("swtRMGFGKXZI4XTZ6MxMASTIhMV1ZArZhAX4A4fj", "dQgwEycp8c0qoTCAqtDbior2xsCnsMKbTaUSq69a");
+	<script type="text/javascript" src="./js/jquery.pietimer.js"></script>	
+	<script type="text/javascript" src="./js/coachTimer.js"></script>	
+	<!--<script type="text/javascript" src="./js/jquery.share.js"></script>-->
+	<script type="text/javascript" src="./js/bootstrap.js"></script>
+	
+	<script type="text/javascript">
+   	   $(document).ready(function() {
+			$('#counterBlock').hide();
+			$('#subcribe').hide();
+			$('#customActionText').hide();
+			
+			$('#garbageCan').hide();
+			
+			$('#garbageCan').droppable(
+			{
+				activate:function( event, ui )
+				{
+				
+				},
+				accept: "li",
+				over:function( event, ui )
+				{					
+					$(this).css("backgroundColor","red" );
+					console.log("orver");
+				},
+				
+				drop:function( event, ui )
+				{
+					debugger;
+					ui.draggable.remove();
+					console.log("drop");
+				},
+				
+				out:function( event, ui )
+				{
+					$(this).css("backgroundColor","#191919" );
+					console.log("out");
+				},
+				
+				deactivate:function( event, ui ){
+				
+					$(this).css("backgroundColor","#191919" );
+				}				
+			});
+			
+			$('#CustomActionList').sortable	(
+			{delay: 100, distance: 15, 
+			 activate: function( event, ui ) {
+						$('#garbageCan').fadeIn('fast');
+					
+					},
+			deactivate: function( event, ui ) {
+						$('#garbageCan').fadeOut('slow');					
+					}								
+			});
+			$('#CustomActionList').disableSelection	();		
+
+			
+			loadMenu();
+			parseLogCheck();	
+						
+			
+		});
 	</script>
   
     <script>	//load FacebookSDK
@@ -49,8 +109,8 @@
        }(document, 'script', 'facebook-jssdk'));
     </script>
   
-	<script>
-  
+	<script>	
+ 
 		var offset = new Date().getTimezoneOffset();
 		console.log(offset);
 		
@@ -63,6 +123,8 @@
 		var cycle=1;
 		var originPatternString="";
 		
+		var CustomString;
+		
 		var Actions={};
 			Actions["M"] = {name:"馬步",imgUrl:"",point:["步伐與肩同寬","","雙腳朝前，不外翻"]};
 			Actions["A"] = {name:"弓步",imgUrl:"",point:["腰跨朝前","前腳朝正前方","後腳朝斜前方","後腿撐直","後腳內側撐地","收提下腹","雙手插腰　肩膀放鬆"]};
@@ -73,28 +135,16 @@
 		
 		var FBresponse;
 			
-	   $(document).ready(function() {
-			$('#counterBlock').hide();
-			$('#subcribe').hide();
-			$('#customActionText').hide();
-			parseLogCheck();
-			
-			
-			
-      });
 
 		var CoinSound = new Audio("./audio/SuperMarioBrothers-Coin.mp3");
 		var JumpSound = new Audio("./audio/SuperMarioBrothers-Jump.mp3");
 		var ClearSound = new Audio("./audio/SuperMarioBrothers-StageCleared.mp3");
 		var ActionSound;
 		
-		function hideTitle()
-		{
-			
-		}	
-			
+
 		function Coachtimer(patternString,pmode,pcycle)
 		{
+			debugger;
 			pmode = typeof pmode !== 'undefined' ? pmode : 'default';
 			pcycle = typeof pcycle !== 'undefined' ? pcycle : 1;
 			
@@ -357,97 +407,7 @@
 			
 			AddRecord()				
 		}
-		
-		function login()
-		{					
-			debugger;			
-			if (FBresponse.status === 'connected') {
-					messBox("FB已登入授權");
-					Parse.User.logOut();					
-					var user = Parse.User.current();
-					
-					if(user == null)
-					{
-						Parse.FacebookUtils.logIn(null, {
-						success: function(user) {
-				
-						/*if (!user.existed()) {
-							alert("User signed up and logged in through Facebook!");									
-						}else 
-						{
-							alert("User logged in through Facebook!");					
-						}
-						*/
-						
-						messBox("Parse login success");		
-						parseLogCheck();
-					//	AddRecord()
-		
-				
-						},
-						error: function(user, error) {					
-							messBox("Parse login Fail");
-						}
-						});
-					}else
-					{
-						messBox("Parse already login");
-					}
-					
-					//AddRecord();								
-			} else if (FBresponse.status === 'not_authorized') {
-					messBox("FB未授權");
-					
-					Parse.FacebookUtils.logIn(null, {
-					success: function(user) {
-				
-						/*if (!user.existed()) {
-							alert("User signed up and logged in through Facebook!");									
-						}else 
-						{
-							alert("User logged in through Facebook!");					
-						}
-						*/
-				
-						messBox("Parse login success");		
-						parseLogCheck();						
-						//AddRecord()
-		
-				
-					},
-					error: function(user, error) {					
-						messBox("Parse login Fail");
-					}
-					});
-					
-			} else {
-					messBox("未登入FB");																			
-			}
-			
-			
-		}
-		
-		function parseLogCheck()
-		{
-			var user = Parse.User.current();	
-			if (user==null)
-			{
-				$("#loginButton").show();
-				$("#logoutButton").hide();
-			}else
-			{
-				$("#loginButton").hide();
-				$("#logoutButton").show();
-			}
-		}
-		
-		function logout()
-		{
-			Parse.User.logOut();
-			parseLogCheck();
-			messBox("登出成功");
-		}
-		
+							
 		function AddRecord()
 		{					
 						var cuser = Parse.User.current();			
@@ -495,48 +455,63 @@
 		
 		}
 		
-
-		function messBox(mess)
+		function addCustomAction()
 		{
-			$("#messenge").html(mess).fadeIn('slow');							
-			setTimeout(
-			function()
-			{
-				$("#messenge").fadeOut('slow');					
-				
-			},1000
-			);
+		
+			$(".btn-group").button();
+			$(".btn").button();
+			if($("#newCustomActionName").val()!="" && $("#newCustomActionTime").val()!=""){
+				$("#CustomActionList").append(
+				'<li class="btn btn-warning">'+
+					'<span class="customActionName">'+$("#newCustomActionName").val()+'</span> - '+
+					'<span class="customActionTime"> '+$("#newCustomActionTime").val()+'</span> 分鐘'+
+				'</li>');
+			}
 		}
 		
+		function setCustomAction()
+		{
+			CustomString="";						
+			
+			for(var i=0;i<$("#CustomActionList li").size();i++)
+			{
+			
+				var action = $("#CustomActionList li:eq("+i+") .customActionName").text();
+				var time = $("#CustomActionList li:eq("+i+") .customActionTime").text();
+				
+				CustomString += action + "-" + time + ",";
+			}
+			
+			CustomString = CustomString.substring(0,CustomString.length-1);								
+			
+			$("#customActionModal").modal('hide');
+			//Coachtimer(CustomString,"custom",1);
+			
+
+			if($("#infinite").hasClass("active"))
+			{
 		
-	
+				Coachtimer(CustomString,"custom",0);	
+				
+			}else
+			{
+				var times =	$("#customCycle").val();
+				
+				if(times<=0){ times =1 };
+				Coachtimer(CustomString,"custom",times);								
+			}					
+			
+		}
+		
+
 	</script>	
-</head>
+</head
 <body>  
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="./index.html">鍛鍊時計</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="./index.html">Home</a></li>
-            <li><a href="./history.html">歷史紀錄</a></li>            			           
-			<li><a id="loginButton" onclick="login()">以Facebook登入</a>
-				<a id="logoutButton" onclick="logout()">登出</a>
-			</li> 
-			
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
+<div id="menu">
 </div>
+
+
 
 <div id="wrapper">
 
@@ -549,6 +524,7 @@
 	<div id="subcribe"></div>
  </div>
  
+
  
 
  
@@ -559,6 +535,7 @@
  <div id="buttonSet">
 	<button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-0.05,A-0.05-lr')"> 快速測試 </button>
 	<button type="button" class="btn btn-lg btn-primary" onclick="Coachtimer('M-2,A-2-lr,T-2-lrlr,L-2-lr,S-2-lr,SH-2-lr')"> 站樁計時 </button>	
+	<button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#customActionModal"> 自定動作 </button>	
 	
 	<!--  <button type="button" class="btn btn-lg btn-primary" onclick="login()"> login-Test </button>	-->
 	<!-- <button type="button" class="btn btn-lg btn-primary" onclick="Record()">  Record-Test </button>	-->
@@ -571,6 +548,61 @@
  <div id="messenge">
 
  </div>
+ 
+ <div id="customActionModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">自定義動作</h4>
+      </div>
+      <div class="modal-body">
+       
+	   <div id="addActionForm" class="form-inline">
+	   
+		<label class="control-label">動作</label>
+		<input id="newCustomActionName" type="text" class="form-control" placeholder="讀書、休息...etc"> 
+		
+		<label class="control-label">時間</label>
+		<input id="newCustomActionTime" type="text" class="form-control" placeholder="單位：分鐘"> 
+		
+		<button class="btn btn-success" onclick="addCustomAction()">新增</button>
+		
+	   </div>
+	   
+	   <ul id="CustomActionList">
+			<li class="btn btn-warning"> <span class="customActionName">讀書</span> - <span class="customActionTime">50</span>分鐘</li>
+			<li class="btn btn-warning"> <span class="customActionName">休息</span> - <span class="customActionTime">10</span>分鐘</li>
+	   </ul>
+	   
+	   <div id="garbageCan">
+		<span class="glyphicon glyphicon-trash"></span>
+	   </div>
+				
+		<div id="cycleForm" class="form-inline" >
+			<div class="btn-group" data-toggle="buttons">	
+			
+				<label id="finite" class="btn btn-info active" onclick="$('#customCycleArea').fadeIn('slow')" >
+					<input  type="radio" class="btn">有限循環
+				</label>
+				
+				<label id="infinite" class="btn btn-danger" onclick="$('#customCycleArea').fadeOut('slow')">
+					<input  type="radio" class="btn">無限循環
+				</label>
+					
+			</div>	  
+			
+			<span id="customCycleArea"><input id="customCycle" type="text" class="input-mini form-control" value="1" > 次</span>
+		</div>
+      </div>
+      <div class="modal-footer">       					
+        <button type="button" class="btn btn-primary" onclick="setCustomAction()">開始</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+ 
  
  <div id="footer">
  

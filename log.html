@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="./favicon.ico">
+
+    <title>開發紀錄 | 鍛鍊時計</title>
+
+    <!-- Bootstrap core CSS -->      
+	<link href="./css/bootstrap.css" rel="stylesheet">
+	<link href="./css/bootstrap-theme.css" rel="stylesheet">	
+	<link href="./css/coachTimer.css" rel="stylesheet"> 		
+	
+	<script type="text/javascript" src="./js/jquery-1.11.0.min.js"></script>	
+	<script type="text/javascript" src="./js/jquery-ui-1.10.4.min.js"></script>
+		<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>	
+		
+	<script type="text/javascript" src="./js/coachTimer.js"></script>
+	
+	<script type="text/javascript">
+	
+	$(document).ready(function()
+	{
+		loadMenu();
+		parseLogCheck();
+	})
+   
+	</script>
+  
+    <script>	//load FacebookSDK
+      window.fbAsyncInit = function() {
+        Parse.FacebookUtils.init({
+          appId      : '449939898442125',
+          //xfbml      : true,
+          //version    : 'v2.0'
+        });			
+		
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "http://connect.facebook.net/en_US/all.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+  
+</head>
+<body>  
+
+<div id="menu">
+</div>
+
+
+
+<div id="wrapper">
+
+ <h2> <span class="glyphicon glyphicon-pencil"><span> 開發紀錄</h2>
+ 
+ <hr></hr>
+ 
+ <h3> <span class="glyphicon glyphicon-th-list"><span> 待開發功能</h3>
+ 
+	<p id="log-info">
+	? : 未確認是否進行 <br>
+	<span class="glyphicon glyphicon-time"></span> 開發中...
+	</p>
+ 
+	<ul id="functionList">
+
+		<li>每日任務
+		</li>
+	
+		<li>紀錄頁面
+			<p><span class="glyphicon glyphicon-time"></span>  規律統計</p>
+			<p>月曆型紀錄功能</p>
+			<p><span class="glyphicon glyphicon-time"></span>  偷懶提醒</p>
+			<p>? 勁敵模式</p>
+			<p>? 升級系統</p>
+			<p>? 購物系統</p>
+		</li>
+	
+		<li><span class="glyphicon glyphicon-time"></span>  正確姿勢提示
+			<p>版面編排</p>
+			<p>動作資料庫設定</p>			
+		</li>
+			
+		<li>自定義動作	
+			<p><span class="glyphicon glyphicon-time"></span> 動作左右設定 </p>
+			<p><span class="glyphicon glyphicon-time"></span> 個人動作紀錄 存取</p>
+			<p>個人動作紀錄 分享</p>
+		</li>
+		
+		<li>? 師兄真人鍛鍊語音	
+			<p>文字稿擬定、錄製</p>
+			<p>播放修正</p>
+		</li>
+		
+		<li>採打計數
+			<p></p>
+		</li>
+		
+		<li>mobile版
+			<p>音效bug修正</p>
+			<p>版面重製</p>
+		</li>
+		
+	</ul>
+ 
+ <!--
+ <h3>留下意見</h3>
+  
+ <textarea ></textarea>
+ <input type="sumbit" class="btn btn-primary" value="送出">
+-->
+
+ <ul id="recordList">
+	
+ </ul>
+ 
+ <div id="buttonSet">
+	<!--	<button onclick="makeList()">XD</button>-->
+ 
+ </div>
+ 
+ <div id="messenge">
+ 
+ </div>
+ 
+ <div id="footer">
+ 
+	presented by <a href="https://www.facebook.com/pine0113">G.I</a>
+	
+ </div>
+
+</body>
+</html>
