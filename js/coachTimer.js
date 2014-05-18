@@ -16,8 +16,8 @@
 '          <a class="navbar-brand" href="./index.html">鍛鍊時計</a>'+
 '        </div>'+
 '        <div class="collapse navbar-collapse">'+
-'          <ul class="nav navbar-nav">'+
-'            <li class="active"><a href="./index.html">Home</a></li>'+
+'          <ul id="navMenu" class="nav navbar-nav">'+
+'            <li><a href="./index.html">Home</a></li>'+
 '            <li><a href="./history.html">歷史紀錄</a></li>            			           '+
 '            <li><a href="./log.html">開發紀錄</a></li>            			           '+
 '            <li><a href="./index_boom.html">會爆炸beta版</a></li>            			           '+
